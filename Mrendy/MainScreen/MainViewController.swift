@@ -10,6 +10,7 @@ import UIKit
 
 class MainViewController: UIViewController {
     
+    let apiManager = ApiManager()
     let mainView = MainView()
     
     override func loadView() {
@@ -18,6 +19,7 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        apiManager.callRequestTrendy()
     }
 }
 
