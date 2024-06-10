@@ -20,6 +20,7 @@
 		8E8E6D6C2C1719B9007CAB56 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 8E8E6D6B2C1719B9007CAB56 /* Kingfisher */; };
 		8E8E6D6F2C1719C1007CAB56 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 8E8E6D6E2C1719C1007CAB56 /* Alamofire */; };
 		8E8E6D722C1719C9007CAB56 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8E8E6D712C1719C9007CAB56 /* SnapKit */; };
+		8E8E6D742C17430A007CAB56 /* Trendy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8E6D732C17430A007CAB56 /* Trendy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		8E8E6D632C17174C007CAB56 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		8E8E6D652C1717B5007CAB56 /* SecureAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureAPI.swift; sourceTree = "<group>"; };
 		8E8E6D682C1719A0007CAB56 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
+		8E8E6D732C17430A007CAB56 /* Trendy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trendy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 		8E8E6D672C171933007CAB56 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8E8E6D732C17430A007CAB56 /* Trendy.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -183,6 +186,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E8E6D4F2C17157B007CAB56 /* ViewController.swift in Sources */,
+				8E8E6D742C17430A007CAB56 /* Trendy.swift in Sources */,
 				8E8E6D662C1717B5007CAB56 /* SecureAPI.swift in Sources */,
 				8E8E6D4B2C17157B007CAB56 /* AppDelegate.swift in Sources */,
 				8E8E6D692C1719A0007CAB56 /* ApiManager.swift in Sources */,

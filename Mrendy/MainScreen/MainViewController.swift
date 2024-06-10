@@ -19,7 +19,9 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        apiManager.callRequestTrendy()
+        apiManager.callRequestTrendy() { results in
+            print(results)
+        }
     }
 }
 

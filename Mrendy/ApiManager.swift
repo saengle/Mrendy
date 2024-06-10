@@ -11,7 +11,7 @@ import Alamofire
 
 class ApiManager {
     
-    func callRequestTrendy() {
+    func callRequestTrendy(completion: @escaping((Result<Trendy, AFError>) -> Void)) {
         let url = "https://api.themoviedb.org/3/trending/all/day"
         
         let parameters = [ "language" : "ko-KR" ]
@@ -19,10 +19,17 @@ class ApiManager {
         let headers: HTTPHeaders = [
             "accept": "application/json",
             "Authorization": "Bearer \(SecureAPI.apiToken)"
-          ]
+        ]
         
-        AF.request(url,parameters: parameters, headers: headers).responseString{ response in
-        print(response)
+        AF.request(url, method: .get, parameters: parameters, headers: headers ).responseDecodable(of: Trendy.self) { response in
+            switch response.result {
+            case .success(let repositories):
+                print(repositories.results)
+                completion(.success(repositories))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+            
         }
     }
 }
