@@ -7,11 +7,24 @@
 
 import UIKit
 
+import SnapKit
+
 class MainView: UIView {
+    
+    let tableView = UITableView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .cyan
+        self.backgroundColor = .white
+        self.addSubview(tableView)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorColor = .clear
+        
+        
+        tableView.snp.makeConstraints {
+            $0.bottom.top.equalTo(self.safeAreaLayoutGuide)
+            $0.leading.trailing.equalTo(self.safeAreaLayoutGuide).inset(16)
+        }
     }
     
     required init?(coder: NSCoder) {

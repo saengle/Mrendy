@@ -24,7 +24,6 @@ class ApiManager {
         AF.request(url, method: .get, parameters: parameters, headers: headers ).responseDecodable(of: Trendy.self) { response in
             switch response.result {
             case .success(let repositories):
-                print(repositories.results)
                 completion(.success(repositories))
             case .failure(let error):
                 completion(.failure(error))
