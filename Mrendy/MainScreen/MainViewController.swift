@@ -22,9 +22,11 @@ class MainViewController: UIViewController {
         apiManager.callRequestTrendy() { results in
             print(results)
         }
+        self.navigationItem.title = "Mrendy"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchButtonTapped))
     }
 }
 
 extension MainViewController {
-    
+    @objc func searchButtonTapped() {}
 }
