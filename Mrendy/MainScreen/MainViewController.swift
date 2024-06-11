@@ -90,16 +90,18 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource{
 extension MainViewController: UITableViewDataSourcePrefetching {
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         
-        if self.page < self.totalPage {
-            page += 1
-            apiManager.callRequestTrendy(page: page) { result in
-                switch result {
-                case .success(let trendy):
-                    guard let trendyResults = trendy.results else { return }
-                    self.trendyList = trendyResults
-                    self.mainView.tableView.reloadData()
-                case .failure(let error):
-                    print(error.localizedDescription)
+        for item in indexPaths {
+            if trendyList.count - 2 == item.row && self.page < self.totalPage {
+                page += 1
+                apiManager.callRequestTrendy(page: page) { result in
+                    switch result {
+                    case .success(let trendy):
+                        guard let trendyResults = trendy.results else { return }
+                        self.trendyList.append(contentsOf: trendyResults)
+                        self.mainView.tableView.reloadData()
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
                 }
             }
         }
