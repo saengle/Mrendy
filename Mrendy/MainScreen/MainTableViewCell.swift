@@ -16,6 +16,13 @@ class MainTableViewCell: UITableViewCell {
     let genreLabel = UILabel()
     let posterImageView = UIImageView()
     
+    let deetailStackView = UIStackView()
+    let titleLabel = UILabel()
+    let actorsLabel = UILabel()
+    let lineView = UIView()
+    let horizontalStackView = UIStackView()
+    let detailLabel = UIView()
+    let arrowButton = UIButton()
     
     let phoneScreenWidth = UIScreen.main.bounds.size.width
     
@@ -35,6 +42,10 @@ class MainTableViewCell: UITableViewCell {
         self.addSubview(dateLabel)
         self.addSubview(genreLabel)
         self.addSubview(posterImageView)
+        self.addSubview(deetailStackView)
+        
+        [titleLabel, actorsLabel, lineView, horizontalStackView].forEach{deetailStackView.addSubview($0)}
+        [detailLabel, arrowButton].forEach{horizontalStackView.addSubview($0)}
         
     }
     private func configureLayout() {
@@ -56,6 +67,26 @@ class MainTableViewCell: UITableViewCell {
             make.centerX.equalToSuperview()
             make.height.width.equalTo(phoneScreenWidth - 40)
         }
+        
+        deetailStackView.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo( 3 * (phoneScreenWidth / 10) )
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.leading.trailing.top.equalToSuperview().inset(16)
+        }
+        actorsLabel.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.equalTo(titleLabel.snp.bottom).offset(4)
+        }
+        lineView.snp.makeConstraints { make in
+            make.top.equalTo(actorsLabel.snp.bottom).offset(16)
+            make.leading.trailing.equalTo(titleLabel)
+            make.height.equalTo(1)
+        }
+        
+        
     }
     
     func configureUI() {
@@ -63,6 +94,16 @@ class MainTableViewCell: UITableViewCell {
         dateLabel.textColor = .systemGray
         
         genreLabel.font = .boldSystemFont(ofSize: 17)
+        
+        deetailStackView.backgroundColor = .white
+        
+        titleLabel.text = "테스트용 타이틀"
+        
+        actorsLabel.text = "배우이름이 이러쿵 저러쿵"
+        actorsLabel.textColor = .systemGray
+        actorsLabel.font = .systemFont(ofSize: 12)
+        
+        lineView.backgroundColor = .black
         
     }
 }
