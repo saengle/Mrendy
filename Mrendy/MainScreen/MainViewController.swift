@@ -72,7 +72,17 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource{
         // backdropPath or posterPath
         if let imagePath = data?.backdropPath {
             if let url = URL(string: "https://image.tmdb.org/t/p/w500/\(String(describing: imagePath))") {
-                cell.posterImageView.kf.setImage(with: url)
+                        let processor = DownsamplingImageProcessor(size:  cell.posterImageView.bounds.size)
+                        |> RoundCornerImageProcessor(cornerRadius: 5)
+                cell.posterImageView.kf.indicatorType = .activity
+                cell.posterImageView.kf.setImage(
+                            with: url,
+                            placeholder: UIImage(named: "placeholderImage"),
+                            options: [.processor(processor),
+                                      .scaleFactor(UIScreen.main.scale),
+                                      .transition(.fade(1)),
+                                      .cacheOriginalImage])
+                
             }
         }
         

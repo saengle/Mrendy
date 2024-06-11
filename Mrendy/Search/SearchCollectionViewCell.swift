@@ -32,8 +32,17 @@ class SearchCollectionViewCell: UICollectionViewCell {
     }
     
     func configureCell(url: String) {
-        let stringUrl = "https://image.tmdb.org/t/p/w500/" + url
+        let stringUrl = "https://image.tmdb.org/t/p/w500" + url
         let url = URL(string: stringUrl)
-        searchedImageView.kf.setImage(with: url)
+                let processor = DownsamplingImageProcessor(size: searchedImageView.bounds.size)
+//                |> RoundCornerImageProcessor(cornerRadius: 5)
+        searchedImageView.kf.indicatorType = .activity
+        searchedImageView.kf.setImage(
+                    with: url,
+                    placeholder: UIImage(named: "placeholderImage"),
+                    options: [.processor(processor),
+                              .scaleFactor(UIScreen.main.scale),
+                              .transition(.fade(1)),
+                              .cacheOriginalImage])
     }
 }
