@@ -14,3 +14,7 @@ extension UITableViewCell {
 extension UIViewController {
     static let identifier = String(describing: UIViewController.self)
 }
+
+extension UICollectionViewCell {
+    static let identifier = String(describing: UIViewController.self)
+}

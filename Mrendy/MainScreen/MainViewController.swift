@@ -33,6 +33,7 @@ class MainViewController: UIViewController {
         }
         self.navigationItem.title = "Mrendy"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchButtonTapped))
+        navigationItem.rightBarButtonItem?.tintColor = .black
         mainView.tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.identifier)
         mainView.tableView.dataSource = self
         mainView.tableView.delegate = self
@@ -45,19 +46,28 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController {
-    @objc func searchButtonTapped() {}
+    @objc func searchButtonTapped() {
+        let searchVC = SearchViewController()
+        self.navigationController?.modalPresentationStyle = .fullScreen
+//        let nav = UINavigationController(rootViewController: searchVC)
+        searchVC.modalPresentationStyle = .fullScreen
+        searchVC.modalTransitionStyle = .crossDissolve
+        present(searchVC, animated: true)
+    }
 }
 extension MainViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
+        return 10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as? MainTableViewCell else {return UITableViewCell()}
         let data = trendyList.first?.results?[indexPath.row]
-        
+        let detailData = "임시 배우 이름블라블라"
         cell.dateLabel.text = data?.releaseDate ?? data?.firstAirDate
-        cell.genreLabel.text = data?.title ?? data?.originalName
+        var tempGenreString = "# "
+        
+        //        cell.genreLabel.text = data?.genreIDS.map{tempGenreString + $0}
         
         // backdropPath or posterPath
         if let imagePath = data?.backdropPath {
@@ -66,6 +76,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource{
             }
         }
         
+        cell.titleLabel.text = data?.title ?? data?.originalName
+        cell.actorsLabel.text = detailData
         
         return cell
     }

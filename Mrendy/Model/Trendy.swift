@@ -62,3 +62,5 @@ struct Results: Codable {
         case originCountry = "origin_country"
     }
 }
+
+   

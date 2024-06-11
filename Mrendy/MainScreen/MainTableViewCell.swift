@@ -122,7 +122,8 @@ class MainTableViewCell: UITableViewCell {
         detailLabel.text = "자세히보기"
         detailLabel.font = .systemFont(ofSize: 12)
         
-        arrowButton.setImage(UIImage(systemName: "star"), for: .normal)
+        arrowButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+        arrowButton.tintColor = .black
         
         
     }
