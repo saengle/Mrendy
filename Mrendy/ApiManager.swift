@@ -31,4 +31,25 @@ class ApiManager {
             
         }
     }
+    
+    func callRequestSearch(query: String, completion: @escaping((Result<Trendy, AFError>) -> Void)) {
+        let url = "https://api.themoviedb.org/3/search/collection"
+        
+        let parameters = [ "query" : query ]
+        
+        let headers: HTTPHeaders = [
+            "accept": "application/json",
+            "Authorization": "Bearer \(SecureAPI.apiToken)"
+        ]
+        
+        AF.request(url, method: .get, parameters: parameters, headers: headers ).responseDecodable(of: Trendy.self) { response in
+            switch response.result {
+            case .success(let repositories):
+                completion(.success(repositories))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+            
+        }
+    }
 }
