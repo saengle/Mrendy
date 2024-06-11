@@ -21,7 +21,7 @@ class MainTableViewCell: UITableViewCell {
     let actorsLabel = UILabel()
     let lineView = UIView()
     let horizontalStackView = UIStackView()
-    let detailLabel = UIView()
+    let detailLabel = UILabel()
     let arrowButton = UIButton()
     
     let phoneScreenWidth = UIScreen.main.bounds.size.width
@@ -86,7 +86,21 @@ class MainTableViewCell: UITableViewCell {
             make.height.equalTo(1)
         }
         
+        horizontalStackView.snp.makeConstraints{
+            $0.top.equalTo(lineView.snp.bottom).offset(4)
+            $0.bottom.equalToSuperview().inset(4)
+            $0.leading.trailing.equalToSuperview()
+        }
         
+        detailLabel.snp.makeConstraints{
+            $0.top.bottom.equalToSuperview().inset(4)
+            $0.leading.equalTo(titleLabel.snp.leading)
+        }
+        
+        arrowButton.snp.makeConstraints{
+            $0.top.bottom.equalToSuperview().inset(4)
+            $0.trailing.equalTo(titleLabel.snp.trailing)
+        }
     }
     
     func configureUI() {
@@ -104,6 +118,12 @@ class MainTableViewCell: UITableViewCell {
         actorsLabel.font = .systemFont(ofSize: 12)
         
         lineView.backgroundColor = .black
+        
+        detailLabel.text = "자세히보기"
+        detailLabel.font = .systemFont(ofSize: 12)
+        
+        arrowButton.setImage(UIImage(systemName: "star"), for: .normal)
+        
         
     }
 }
