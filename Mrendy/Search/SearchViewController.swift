@@ -13,7 +13,9 @@ class SearchViewController: UIViewController {
     let searchView = SearchView()
     let apiManager = ApiManager()
     
-    var searchedTrendyList: [Trendy] = []
+    var searchedResultsList: [Results] = []
+    var myPage = 1
+    var totalPage = 1
     
     override func loadView() {
         view = searchView
@@ -27,10 +29,13 @@ class SearchViewController: UIViewController {
         //collection view, cell 연결 및 등록
         searchView.searchedCollectionView.dataSource = self
         searchView.searchedCollectionView.delegate = self
+        searchView.searchedCollectionView.prefetchDataSource = self
         searchView.searchedCollectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.identifier)
         
         searchView.searchBar.delegate = self
         hideKeyboard()
+        
+        
     }
     
 }
@@ -40,32 +45,62 @@ extension SearchViewController {
     }
 }
 
-extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource{
+extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return searchedTrendyList.first?.results?.count ?? 0
+        return searchedResultsList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.identifier, for: indexPath) as? SearchCollectionViewCell else { return UICollectionViewCell() }
         
-        let data = searchedTrendyList.first?.results?[indexPath.row]
+        let data = searchedResultsList[indexPath.row]
         
-        cell.configureCell(url: data?.posterPath ?? data?.backdropPath ?? "")
+        cell.configureCell(url: data.posterPath ?? data.backdropPath ?? "")
         
         return cell
     }
+    // MARK:  페이징 처리
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+         let totalPages = self.totalPage
+         let myListCount = self.searchedResultsList.count
+        for item in indexPaths {
+            // 현재 스크롤이 마지막에서 2번째를 보고있고, mypage < tatalpage 이면 추가검색
+            if myListCount - 2 == item.row && self.myPage < totalPages {
+                myPage += 1
+                self.apiManager.callRequestSearch(query: self.searchView.searchBar.text!, page: myPage) { result in
+                    switch result {
+                    case .success(let trendy):
+                        guard let myTrendyResult = trendy.results else { return }
+                        self.searchedResultsList.append(contentsOf: myTrendyResult)
+                        self.searchView.searchedCollectionView.reloadData()
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+        }
+    }
+    
 }
 
 extension SearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        self.apiManager.callRequestSearch(query: searchBar.text!) { result in
+        // 페이지네이션 위한 페이지 1로 리셋.
+        self.myPage = 1
+        self.apiManager.callRequestSearch(query: searchBar.text!, page: myPage) { result in
             switch result {
             case .success(let trendy):
-                self.searchedTrendyList = [trendy]
+                guard let myTrendyResult = trendy.results else { return }
+                self.searchedResultsList = myTrendyResult
+                guard let total = trendy.totalPages else { return }
+                self.totalPage = total
+                print("이번에 받아오는 total = \(total)")
+                self.searchView.searchedCollectionView.scrollsToTop = true
                 self.searchView.searchedCollectionView.reloadData()
+                self.searchView.searchedCollectionView.scrollsToTop = true
             case .failure(let error):
                 print(error.localizedDescription)
             }

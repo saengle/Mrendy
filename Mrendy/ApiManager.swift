@@ -32,11 +32,12 @@ class ApiManager {
         }
     }
     
-    func callRequestSearch(query: String, completion: @escaping((Result<Trendy, AFError>) -> Void)) {
+    func callRequestSearch(query: String, page: Int, completion: @escaping((Result<Trendy, AFError>) -> Void)) {
         let url = "https://api.themoviedb.org/3/search/multi"
         
         let parameters = [ "query" : query ,
-                           "language" : "ko-KR"]
+                           "language" : "ko-KR",
+                           "page" : "\(page)"]
         
         let headers: HTTPHeaders = [
             "accept": "application/json",
