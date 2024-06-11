@@ -22,6 +22,7 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        searchView.backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
         
         //collection view, cell 연결 및 등록
         searchView.searchedCollectionView.dataSource = self
@@ -33,7 +34,11 @@ class SearchViewController: UIViewController {
     }
     
 }
-
+extension SearchViewController {
+    @objc func backButtonClicked() {
+        self.dismiss(animated: true)
+    }
+}
 
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource{
     
