@@ -25,15 +25,22 @@ class SearchView: UIView {
         return layout
     }
     
+    let backButton: UIButton = {
+        let bt = UIButton()
+        bt.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+        bt.tintColor = .black
+        return bt
+    }()
     
+    let searchBar: UISearchBar = {
+        let sb = UISearchBar()
+        sb.returnKeyType = .route
+        return sb
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
-        addSubview(searchedCollectionView)
-        searchedCollectionView.snp.makeConstraints { make in
-            make.edges.equalTo(self.safeAreaLayoutGuide)
-        }
+        configureUI()
     }
     
     
@@ -42,4 +49,38 @@ class SearchView: UIView {
     }
 }
 
-
+extension SearchView {
+    private func configureUI() {
+        self.backgroundColor = .white
+        configureHierachy()
+        configureLayout()
+    }
+    
+    private func configureHierachy() {
+        [searchedCollectionView, backButton, searchBar].forEach{addSubview($0)}
+    }
+    
+    private func configureLayout() {
+        
+        backButton.snp.makeConstraints { make in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.leading.equalTo(self.safeAreaLayoutGuide).inset(16)
+            make.height.equalTo(44)
+            make.width.equalTo(44)
+        }
+        
+        searchBar.snp.makeConstraints { make in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.leading.equalTo(backButton.snp.trailing).offset(8)
+            make.trailing.equalTo(self.safeAreaLayoutGuide).inset(16)
+            make.height.equalTo(44)
+        }
+        
+        searchedCollectionView.snp.makeConstraints { make in
+            make.horizontalEdges.bottom.equalTo(self.safeAreaLayoutGuide)
+            make.top.equalTo(searchBar.snp.bottom)
+        }
+    }
+    
+    
+}
