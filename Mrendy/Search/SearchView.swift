@@ -52,6 +52,7 @@ class SearchView: UIView {
 extension SearchView {
     private func configureUI() {
         self.backgroundColor = .white
+        searchBar.searchBarStyle = .minimal
         configureHierachy()
         configureLayout()
     }

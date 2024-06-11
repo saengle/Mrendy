@@ -11,10 +11,11 @@ import Alamofire
 
 class ApiManager {
     
-    func callRequestTrendy(completion: @escaping((Result<Trendy, AFError>) -> Void)) {
+    func callRequestTrendy(page: Int, completion: @escaping((Result<Trendy, AFError>) -> Void)) {
         let url = "https://api.themoviedb.org/3/trending/all/day"
         
-        let parameters = [ "language" : "ko-KR" ]
+        let parameters = [ "language" : "ko-KR",
+                           "page" : "\(page)"]
         
         let headers: HTTPHeaders = [
             "accept": "application/json",

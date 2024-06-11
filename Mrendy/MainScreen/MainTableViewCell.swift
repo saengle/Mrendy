@@ -18,7 +18,7 @@ class MainTableViewCell: UITableViewCell {
     
     let deetailStackView = UIStackView()
     let titleLabel = UILabel()
-    let actorsLabel = UILabel()
+    let descriptionLabel = UILabel()
     let lineView = UIView()
     let horizontalStackView = UIStackView()
     let detailLabel = UILabel()
@@ -44,7 +44,7 @@ class MainTableViewCell: UITableViewCell {
         self.addSubview(posterImageView)
         self.addSubview(deetailStackView)
         
-        [titleLabel, actorsLabel, lineView, horizontalStackView].forEach{deetailStackView.addSubview($0)}
+        [titleLabel, descriptionLabel, lineView, horizontalStackView].forEach{deetailStackView.addSubview($0)}
         [detailLabel, arrowButton].forEach{horizontalStackView.addSubview($0)}
         
     }
@@ -76,12 +76,12 @@ class MainTableViewCell: UITableViewCell {
         titleLabel.snp.makeConstraints { make in
             make.leading.trailing.top.equalToSuperview().inset(16)
         }
-        actorsLabel.snp.makeConstraints { make in
+        descriptionLabel.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(titleLabel.snp.bottom).offset(4)
         }
         lineView.snp.makeConstraints { make in
-            make.top.equalTo(actorsLabel.snp.bottom).offset(16)
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(16)
             make.leading.trailing.equalTo(titleLabel)
             make.height.equalTo(1)
         }
@@ -113,9 +113,9 @@ class MainTableViewCell: UITableViewCell {
         
         titleLabel.text = "테스트용 타이틀"
         
-        actorsLabel.text = "배우이름이 이러쿵 저러쿵"
-        actorsLabel.textColor = .systemGray
-        actorsLabel.font = .systemFont(ofSize: 12)
+        descriptionLabel.text = "배우이름이 이러쿵 저러쿵"
+        descriptionLabel.textColor = .systemGray
+        descriptionLabel.font = .systemFont(ofSize: 12)
         
         lineView.backgroundColor = .black
         
@@ -124,7 +124,29 @@ class MainTableViewCell: UITableViewCell {
         
         arrowButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
         arrowButton.tintColor = .black
+    }
+    func configureCellData(data: Results, genre: String) {
+        dateLabel.text = data.releaseDate ?? data.firstAirDate
         
+        //Image  backdropPath or posterPath
+        if let imagePath = data.backdropPath {
+            if let url = URL(string: "https://image.tmdb.org/t/p/w500/\(String(describing: imagePath))") {
+                        let processor = DownsamplingImageProcessor(size:  posterImageView.bounds.size)
+                        |> RoundCornerImageProcessor(cornerRadius: 5)
+                posterImageView.kf.indicatorType = .activity
+                posterImageView.kf.setImage(
+                            with: url,
+                            placeholder: UIImage(named: "placeholderImage"),
+                            options: [.processor(processor),
+                                      .scaleFactor(UIScreen.main.scale),
+                                      .transition(.fade(1)),
+                                      .cacheOriginalImage])
+                
+            }
+        }
         
+        titleLabel.text = data.title ?? data.name
+        descriptionLabel.text = data.overview
+        genreLabel.text = genre
     }
 }

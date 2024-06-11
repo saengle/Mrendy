@@ -14,7 +14,9 @@ class MainViewController: UIViewController {
     let apiManager = ApiManager()
     let mainView = MainView()
     
-    var trendyList: [Trendy] = []
+    var trendyList: [Results] = []
+    var page = 1
+    var totalPage = 1
     
     override func loadView() {
         view = mainView
@@ -22,10 +24,13 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        apiManager.callRequestTrendy() { result in
+        apiManager.callRequestTrendy(page: page) { result in
             switch result {
             case .success(let trendy):
-                self.trendyList = [trendy]
+                guard let trendyResults = trendy.results else { return }
+                self.trendyList = trendyResults
+                guard let updatedTotalPage = trendy.totalPages else { return }
+                self.totalPage = updatedTotalPage
                 self.mainView.tableView.reloadData()
             case .failure(let error):
                 print(error.localizedDescription)
@@ -37,6 +42,7 @@ class MainViewController: UIViewController {
         mainView.tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.identifier)
         mainView.tableView.dataSource = self
         mainView.tableView.delegate = self
+        mainView.tableView.prefetchDataSource = self
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -55,40 +61,47 @@ extension MainViewController {
         present(searchVC, animated: true)
     }
 }
+
 extension MainViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return trendyList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+       
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as? MainTableViewCell else {return UITableViewCell()}
-        let data = trendyList.first?.results?[indexPath.row]
-        let detailData = "임시 배우 이름블라블라"
-        cell.dateLabel.text = data?.releaseDate ?? data?.firstAirDate
-        var tempGenreString = "# "
-        
-        //        cell.genreLabel.text = data?.genreIDS.map{tempGenreString + $0}
-        
-        // backdropPath or posterPath
-        if let imagePath = data?.backdropPath {
-            if let url = URL(string: "https://image.tmdb.org/t/p/w500/\(String(describing: imagePath))") {
-                        let processor = DownsamplingImageProcessor(size:  cell.posterImageView.bounds.size)
-                        |> RoundCornerImageProcessor(cornerRadius: 5)
-                cell.posterImageView.kf.indicatorType = .activity
-                cell.posterImageView.kf.setImage(
-                            with: url,
-                            placeholder: UIImage(named: "placeholderImage"),
-                            options: [.processor(processor),
-                                      .scaleFactor(UIScreen.main.scale),
-                                      .transition(.fade(1)),
-                                      .cacheOriginalImage])
-                
+       
+        let data = trendyList[indexPath.row]
+        // 장르 가져오기 (Int -> String)
+        var genreString = "#"
+        if let genreID = data.genreIDS?.first {
+            if let genre = Genres.Genre[genreID] {
+                genreString = genreString + genre
             }
         }
         
-        cell.titleLabel.text = data?.title ?? data?.originalName
-        cell.actorsLabel.text = detailData
+        // 셀에 데이터 넣어주기.
+        cell.configureCellData(data: data, genre: genreString)
         
         return cell
+    }
+}
+
+extension MainViewController: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        
+        if self.page < self.totalPage {
+            page += 1
+            apiManager.callRequestTrendy(page: page) { result in
+                switch result {
+                case .success(let trendy):
+                    guard let trendyResults = trendy.results else { return }
+                    self.trendyList = trendyResults
+                    self.mainView.tableView.reloadData()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
 }
