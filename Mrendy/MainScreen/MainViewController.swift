@@ -55,7 +55,7 @@ extension MainViewController {
     @objc func searchButtonTapped() {
         let searchVC = SearchViewController()
         self.navigationController?.modalPresentationStyle = .fullScreen
-//        let nav = UINavigationController(rootViewController: searchVC)
+        //        let nav = UINavigationController(rootViewController: searchVC)
         searchVC.modalPresentationStyle = .fullScreen
         searchVC.modalTransitionStyle = .crossDissolve
         present(searchVC, animated: true)
@@ -68,9 +68,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as? MainTableViewCell else {return UITableViewCell()}
-       
+        
         let data = trendyList[indexPath.row]
         // 장르 가져오기 (Int -> String)
         var genreString = "#"
