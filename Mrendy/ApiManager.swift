@@ -55,4 +55,12 @@ class ApiManager {
             
         }
     }
+    
+//    func callCredit(query: String, forCredit: Bool,  completion: @escaping((Result<T, AFError) -> Void)) {
+//        
+//        let url = "https://api.themoviedb.org/3/movie/{movie_id}/credits"
+//
+//        
+//        
+//    }
 }

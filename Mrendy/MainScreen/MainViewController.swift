@@ -85,6 +85,12 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource{
         
         return cell
     }
+    // MARK:  cell touch -> DetailScreen
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = DetailViewController()
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension MainViewController: UITableViewDataSourcePrefetching {

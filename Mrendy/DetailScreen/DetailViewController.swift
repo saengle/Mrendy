@@ -9,8 +9,14 @@ import UIKit
 
 class DetailViewController: UIViewController {
     
+    let detailView = DetailView()
+    
+    override func loadView(){
+        view = detailView
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
     
 }

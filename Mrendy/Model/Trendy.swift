@@ -7,9 +7,6 @@
 
 import Foundation
 
-
-import Foundation
-
 // MARK: - Trandy
 struct Trendy: Codable {
     let page: Int?
