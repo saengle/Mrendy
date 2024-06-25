@@ -75,6 +75,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
                         guard let myTrendyResult = trendy.results else { return }
                         self.searchedResultsList.append(contentsOf: myTrendyResult)
                         self.searchView.searchedCollectionView.reloadData()
+//                        print(self.searchedResultsList)
                     case .failure(let error):
                         print(error.localizedDescription)
                     }
@@ -82,7 +83,15 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             }
         }
     }
-    
+    // MARK:  cell touch -> DetailScreen
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.identifier, for: indexPath) as? SearchCollectionViewCell {
+            print("클릭 됨")
+            let vc = DetailViewController()
+            navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 }
 
 extension SearchViewController: UISearchBarDelegate {
@@ -97,7 +106,7 @@ extension SearchViewController: UISearchBarDelegate {
                 self.searchedResultsList = myTrendyResult
                 guard let total = trendy.totalPages else { return }
                 self.totalPage = total
-                print("이번에 받아오는 total = \(total)")
+//                print("이번에 받아오는 total = \(total)")
                 self.searchView.searchedCollectionView.scrollsToTop = true
                 self.searchView.searchedCollectionView.reloadData()
                 self.searchView.searchedCollectionView.scrollsToTop = true
@@ -110,6 +119,7 @@ extension SearchViewController: UISearchBarDelegate {
     
     func hideKeyboard() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
     
