@@ -39,7 +39,7 @@ class MainViewController: UIViewController {
         self.navigationItem.title = "Mrendy"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchButtonTapped))
         navigationItem.rightBarButtonItem?.tintColor = .black
-        mainView.tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.identifier)
+        mainView.tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.id)
         mainView.tableView.dataSource = self
         mainView.tableView.delegate = self
         mainView.tableView.prefetchDataSource = self
@@ -69,7 +69,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as? MainTableViewCell else {return UITableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.id, for: indexPath) as? MainTableViewCell else {return UITableViewCell()}
         
         let data = trendyList[indexPath.row]
         // 장르 가져오기 (Int -> String)

@@ -7,14 +7,6 @@
 
 import UIKit
 
-extension UITableViewCell {
-    static let identifier = String(describing: UITableViewCell.self)
-}
-
-extension UIViewController {
-    static let identifier = String(describing: UIViewController.self)
-}
-
-extension UICollectionViewCell {
-    static let identifier = String(describing: UIViewController.self)
+extension UIView {
+    static let id = String(describing: UIView.self)
 }

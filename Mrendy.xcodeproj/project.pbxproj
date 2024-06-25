@@ -30,6 +30,10 @@
 		8E8E6D9A2C19B98B007CAB56 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8E6D992C19B98B007CAB56 /* DetailViewController.swift */; };
 		8E8E6D9C2C19B993007CAB56 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8E6D9B2C19B993007CAB56 /* DetailView.swift */; };
 		8E8E6D9E2C1A6C65007CAB56 /* Credit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8E6D9D2C1A6C65007CAB56 /* Credit.swift */; };
+		8EDE51392C2AF53B008CCB43 /* OverViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDE51382C2AF53B008CCB43 /* OverViewCell.swift */; };
+		8EDE513B2C2AF56B008CCB43 /* CastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDE513A2C2AF56B008CCB43 /* CastCell.swift */; };
+		8EDE513D2C2AF584008CCB43 /* VideoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDE513C2C2AF584008CCB43 /* VideoListCell.swift */; };
+		8EDE51402C2B0072008CCB43 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDE513F2C2B0072008CCB43 /* BaseTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +59,10 @@
 		8E8E6D992C19B98B007CAB56 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		8E8E6D9B2C19B993007CAB56 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		8E8E6D9D2C1A6C65007CAB56 /* Credit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credit.swift; sourceTree = "<group>"; };
+		8EDE51382C2AF53B008CCB43 /* OverViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverViewCell.swift; sourceTree = "<group>"; };
+		8EDE513A2C2AF56B008CCB43 /* CastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastCell.swift; sourceTree = "<group>"; };
+		8EDE513C2C2AF584008CCB43 /* VideoListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoListCell.swift; sourceTree = "<group>"; };
+		8EDE513F2C2B0072008CCB43 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +99,7 @@
 		8E8E6D492C17157B007CAB56 /* Mrendy */ = {
 			isa = PBXGroup;
 			children = (
+				8EDE513E2C2B0064008CCB43 /* Base */,
 				8E8E6D982C19B7B4007CAB56 /* DetailScreen */,
 				8E8E6D842C183CA1007CAB56 /* SearchScreen */,
 				8E8E6D772C174D05007CAB56 /* Extension */,
@@ -151,8 +160,19 @@
 			children = (
 				8E8E6D992C19B98B007CAB56 /* DetailViewController.swift */,
 				8E8E6D9B2C19B993007CAB56 /* DetailView.swift */,
+				8EDE51382C2AF53B008CCB43 /* OverViewCell.swift */,
+				8EDE513A2C2AF56B008CCB43 /* CastCell.swift */,
+				8EDE513C2C2AF584008CCB43 /* VideoListCell.swift */,
 			);
 			path = DetailScreen;
+			sourceTree = "<group>";
+		};
+		8EDE513E2C2B0064008CCB43 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				8EDE513F2C2B0072008CCB43 /* BaseTableViewCell.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,6 +260,7 @@
 				8E8E6D4F2C17157B007CAB56 /* ViewController.swift in Sources */,
 				8E8E6D9E2C1A6C65007CAB56 /* Credit.swift in Sources */,
 				8E8E6D862C183CB6007CAB56 /* SearchViewController.swift in Sources */,
+				8EDE51402C2B0072008CCB43 /* BaseTableViewCell.swift in Sources */,
 				8E8E6D762C174C7D007CAB56 /* MainTableViewCell.swift in Sources */,
 				8E8E6D742C17430A007CAB56 /* Trendy.swift in Sources */,
 				8E8E6D882C183D19007CAB56 /* SearchView.swift in Sources */,
@@ -248,7 +269,10 @@
 				8E8E6D692C1719A0007CAB56 /* ApiManager.swift in Sources */,
 				8E8E6D792C174D38007CAB56 /* Common+Extension.swift in Sources */,
 				8E8E6D8C2C1840C8007CAB56 /* Genres.swift in Sources */,
+				8EDE51392C2AF53B008CCB43 /* OverViewCell.swift in Sources */,
+				8EDE513D2C2AF584008CCB43 /* VideoListCell.swift in Sources */,
 				8E8E6D8A2C183D4F007CAB56 /* SearchCollectionViewCell.swift in Sources */,
+				8EDE513B2C2AF56B008CCB43 /* CastCell.swift in Sources */,
 				8E8E6D9C2C19B993007CAB56 /* DetailView.swift in Sources */,
 				8E8E6D4D2C17157B007CAB56 /* SceneDelegate.swift in Sources */,
 				8E8E6D622C171666007CAB56 /* MainView.swift in Sources */,

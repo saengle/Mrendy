@@ -30,7 +30,7 @@ class SearchViewController: UIViewController {
         searchView.searchedCollectionView.dataSource = self
         searchView.searchedCollectionView.delegate = self
         searchView.searchedCollectionView.prefetchDataSource = self
-        searchView.searchedCollectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.identifier)
+        searchView.searchedCollectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.id)
         
         searchView.searchBar.delegate = self
         hideKeyboard()
@@ -53,10 +53,9 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.identifier, for: indexPath) as? SearchCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.id, for: indexPath) as? SearchCollectionViewCell else { return UICollectionViewCell() }
         
         let data = searchedResultsList[indexPath.row]
-        
         cell.configureCell(url: data.posterPath ?? data.backdropPath ?? "")
         
         return cell
@@ -85,7 +84,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     // MARK:  cell touch -> DetailScreen
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.identifier, for: indexPath) as? SearchCollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.id, for: indexPath) as? SearchCollectionViewCell {
             print("클릭 됨")
             let vc = DetailViewController()
             navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)

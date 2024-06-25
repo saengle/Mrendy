@@ -30,15 +30,24 @@ extension DetailViewController {
 }
 
 extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
+    // MARK:  Number of Rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
-    
+    // MARK: Number of Sections
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 4
+    }
+    // MARK:  ConfigureCell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 //        guard let cell = tableView.dequeueReusableCell(withIdentifier: <#T##String#>, for: <#T##IndexPath#>)
             let cell = UITableViewCell()
         cell.backgroundColor = .brown
         return cell
     }
- 
+    // MARK:  Header Title
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "안녕 디지몬"
+    }
+   
 }
