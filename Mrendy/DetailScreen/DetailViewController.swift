@@ -12,7 +12,9 @@ class DetailViewController: UIViewController {
     let detailView = DetailView()
     let apiManager = ApiManager()
     lazy var castList: [Cast] = []
-    
+    lazy var overView: String = ""
+    lazy var backdropPath: String = ""
+    lazy var posterPath: String = ""
     override func loadView(){
         view = detailView
     }
@@ -42,7 +44,7 @@ extension DetailViewController {
                 case .success(let credit):
                     guard let myTrendyResult = credit.cast else { return }
                     self.castList.append(contentsOf: myTrendyResult)
-                    self.detailView.mainTableView.reloadData()
+                    self.detailView.mainTableView.reloadSections(IndexSet(integer: 1), with: .automatic)
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
@@ -51,7 +53,20 @@ extension DetailViewController {
         }
         group.enter()
         DispatchQueue.global().async(group: group) {
-       
+            self.apiManager.callRequestDetail(id: "786892") { result in
+                switch result {
+                case .success(let detail):
+                    guard let tempOverView = detail.overview else { return }
+                    self.overView = tempOverView
+                    
+                    guard let tempBackdropPath = detail.backdropPath else { return }
+                    guard let tempPosterPath = detail.posterPath else { return }
+                    self.detailView.configureView(backdropPath: tempBackdropPath, posterPath: tempPosterPath)
+                    self.detailView.mainTableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
             group.leave()
         }
         group.notify(queue: .main) {
@@ -84,7 +99,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             self.detailView.mainTableView.register(OverViewCell.self, forCellReuseIdentifier: OverViewCell.id)
             guard let cell = tableView.dequeueReusableCell(withIdentifier: OverViewCell.id, for: indexPath)
                     as? OverViewCell else { return UITableViewCell()}
-            
+            cell.configureCell(overView: overView)
             return cell
         } else if indexPath.section == 1 {
             self.detailView.mainTableView.register(CastCell.self, forCellReuseIdentifier: CastCell.id)

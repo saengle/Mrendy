@@ -14,7 +14,7 @@ class OverViewCell: BaseTableViewCell {
     let overviewLabel = {
         let lb = UILabel()
         lb.font = .systemFont(ofSize: 13)
-    return lb
+        return lb
     }()
     let resizeButton = UIButton()
     
@@ -42,5 +42,7 @@ class OverViewCell: BaseTableViewCell {
             make.bottom.equalTo(contentView.snp.bottom).inset(8)
         }
     }
-    override func configureCell() {}
+    func configureCell(overView: String) {
+        overviewLabel.text = overView
+    }
 }

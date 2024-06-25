@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import Kingfisher
 
 class DetailView: UIView {
     
@@ -54,5 +55,30 @@ class DetailView: UIView {
             $0.horizontalEdges.bottom.equalTo(self.safeAreaLayoutGuide)
         }
     }
-    private func configureView() {}
+    func configureView(backdropPath: String, posterPath: String) {
+        if let url = URL(string: "https://image.tmdb.org/t/p/w500/\(String(describing: backdropPath))") {
+             let processor = DownsamplingImageProcessor(size:  backgroundPosterImageView.bounds.size)
+             |> RoundCornerImageProcessor(cornerRadius: 5)
+            backgroundPosterImageView.kf.indicatorType = .activity
+            backgroundPosterImageView.kf.setImage(
+                 with: url,
+                 placeholder: UIImage(named: "placeholderImage"),
+                 options: [.processor(processor),
+                           .scaleFactor(UIScreen.main.scale),
+                           .transition(.fade(1)),
+                           .cacheOriginalImage])
+         }
+        if let url = URL(string: "https://image.tmdb.org/t/p/w500/\(String(describing: posterPath))") {
+             let processor = DownsamplingImageProcessor(size:  posterImageView.bounds.size)
+             |> RoundCornerImageProcessor(cornerRadius: 5)
+            posterImageView.kf.indicatorType = .activity
+            posterImageView.kf.setImage(
+                 with: url,
+                 placeholder: UIImage(named: "placeholderImage"),
+                 options: [.processor(processor),
+                           .scaleFactor(UIScreen.main.scale),
+                           .transition(.fade(1)),
+                           .cacheOriginalImage])
+         }
+    }
 }

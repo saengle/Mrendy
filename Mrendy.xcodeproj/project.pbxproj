@@ -35,6 +35,7 @@
 		8EDE513D2C2AF584008CCB43 /* VideoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDE513C2C2AF584008CCB43 /* VideoListCell.swift */; };
 		8EDE51402C2B0072008CCB43 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDE513F2C2B0072008CCB43 /* BaseTableViewCell.swift */; };
 		8EDE51422C2B1DCF008CCB43 /* PosterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDE51412C2B1DCF008CCB43 /* PosterCollectionViewCell.swift */; };
+		8EDE51442C2B416E008CCB43 /* VideoDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDE51432C2B416E008CCB43 /* VideoDetail.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +66,7 @@
 		8EDE513C2C2AF584008CCB43 /* VideoListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoListCell.swift; sourceTree = "<group>"; };
 		8EDE513F2C2B0072008CCB43 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		8EDE51412C2B1DCF008CCB43 /* PosterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterCollectionViewCell.swift; sourceTree = "<group>"; };
+		8EDE51432C2B416E008CCB43 /* VideoDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetail.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 				8E8E6D732C17430A007CAB56 /* Trendy.swift */,
 				8E8E6D8B2C1840C8007CAB56 /* Genres.swift */,
 				8E8E6D9D2C1A6C65007CAB56 /* Credit.swift */,
+				8EDE51432C2B416E008CCB43 /* VideoDetail.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EDE51442C2B416E008CCB43 /* VideoDetail.swift in Sources */,
 				8E8E6D9A2C19B98B007CAB56 /* DetailViewController.swift in Sources */,
 				8E8E6D4F2C17157B007CAB56 /* ViewController.swift in Sources */,
 				8E8E6D9E2C1A6C65007CAB56 /* Credit.swift in Sources */,
