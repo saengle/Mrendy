@@ -10,6 +10,8 @@ import UIKit
 class DetailViewController: UIViewController {
     
     let detailView = DetailView()
+    let apiManager = ApiManager()
+    lazy var castList: [Cast] = []
     
     override func loadView(){
         view = detailView
@@ -17,6 +19,18 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureVC()
+        
+        self.apiManager.callRequestCredit(id: "786892") { result in
+            switch result {
+            case .success(let credit):
+                guard let myTrendyResult = credit.cast else { return }
+                self.castList.append(contentsOf: myTrendyResult)
+                print(self.castList)
+                self.detailView.mainTableView.reloadData()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
         
     }
 }
@@ -27,9 +41,6 @@ extension DetailViewController {
         self.detailView.mainTableView.dataSource = self
         self.detailView.mainTableView.rowHeight = UITableView.automaticDimension
         
-        
-       
-//        self.detailView.mainTableView.cell
     }
 }
 
@@ -40,7 +51,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         case 0:
             return 1
         case 1:
-            return 4
+            return castList.count
         case 2...3:
             return 1
         default: return 0
@@ -52,27 +63,30 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     }
     // MARK:  ConfigureCell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     
+        
         if indexPath.section == 0 {
             self.detailView.mainTableView.register(OverViewCell.self, forCellReuseIdentifier: OverViewCell.id)
             guard let cell = tableView.dequeueReusableCell(withIdentifier: OverViewCell.id, for: indexPath)
                     as? OverViewCell else { return UITableViewCell()}
-            print(indexPath.section)
             
             return cell
         } else if indexPath.section == 1 {
             self.detailView.mainTableView.register(CastCell.self, forCellReuseIdentifier: CastCell.id)
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CastCell.id, for: indexPath)
                     as? CastCell else { return UITableViewCell()}
-            print(indexPath.section)
+             let data = castList[indexPath.row]
+            guard let imagePath = data.profilePath else { return UITableViewCell() }
+            guard let realName = data.originalName else { return UITableViewCell() }
+            guard let name = data.character else { return UITableViewCell() }
+            cell.configureCell(imagePath: imagePath, realName: realName, playName: name)
             return cell
-        } else {
+        } else if indexPath.section == 2 || indexPath.section == 3 {
             self.detailView.mainTableView.register(VideoListCell.self, forCellReuseIdentifier: VideoListCell.id)
             guard let cell = tableView.dequeueReusableCell(withIdentifier: VideoListCell.id, for: indexPath)
                     as? VideoListCell else { return UITableViewCell()}
-            print(indexPath.section)
+   
             return cell
-        }
+        } else { return UITableViewCell() }
     }
     // MARK:  Header Title
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -85,5 +99,18 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             return "울랄라"
         default: return ""
         }
+    }
+}
+
+extension DetailViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCollectionViewCell.id, for: indexPath) as! PosterCollectionViewCell
+        cell.backgroundColor = .gray
+            print("셀이 불러와지질 않아 !?")
+        return cell
     }
 }

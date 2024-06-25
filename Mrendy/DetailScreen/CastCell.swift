@@ -7,6 +7,9 @@
 
 import UIKit
 
+import Kingfisher
+import SnapKit
+
 class CastCell: BaseTableViewCell {
     
     let posterIamge = UIImageView()
@@ -26,23 +29,38 @@ class CastCell: BaseTableViewCell {
     }
     override func configureLayout() {
         contentView.snp.makeConstraints { make in
-            make.height.equalTo(100)
+            make.height.equalTo(72)
         }
-        posterIamge.backgroundColor = .black
         posterIamge.snp.makeConstraints { make in
-            make.leading.top.bottom.equalToSuperview().inset(16)
+            make.leading.equalToSuperview().inset(16)
+            make.top.bottom.equalToSuperview().inset(8)
             make.height.equalTo(posterIamge.snp.width).multipliedBy(1.3)
         }
-        realNameLabel.text = "기무아무개"
+        
         realNameLabel.snp.makeConstraints { make in
             make.leading.equalTo(posterIamge.snp.trailing).offset(16)
             make.bottom.equalTo(contentView.snp.centerY).inset(16)
         }
-        playNameLabel.text = "이무아무아무개"
+        
         playNameLabel.snp.makeConstraints { make in
             make.leading.equalTo(posterIamge.snp.trailing).offset(16)
             make.top.equalTo(contentView.snp.centerY)
         }
     }
-    override func configureCell() {}
+    func configureCell(imagePath: String, realName: String, playName: String) {
+        realNameLabel.text = realName
+        playNameLabel.text = playName
+       if let url = URL(string: "https://image.tmdb.org/t/p/w500/\(String(describing: imagePath))") {
+            let processor = DownsamplingImageProcessor(size:  posterIamge.bounds.size)
+            |> RoundCornerImageProcessor(cornerRadius: 5)
+            posterIamge.kf.indicatorType = .activity
+            posterIamge.kf.setImage(
+                with: url,
+                placeholder: UIImage(named: "placeholderImage"),
+                options: [.processor(processor),
+                          .scaleFactor(UIScreen.main.scale),
+                          .transition(.fade(1)),
+                          .cacheOriginalImage])
+        }
+    }
 }

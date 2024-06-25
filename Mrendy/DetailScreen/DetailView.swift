@@ -27,6 +27,7 @@ class DetailView: UIView {
         super.init(frame: frame)
         configureHierachy()
         configureLayout()
+        self.backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {
@@ -48,7 +49,6 @@ class DetailView: UIView {
             $0.leading.equalTo(backgroundPosterImageView.snp.leading).inset(16)
             $0.width.equalTo(posterImageView.snp.height).multipliedBy(1.0 / 1.3)
         }
-        mainTableView.backgroundColor = .green
         mainTableView.snp.makeConstraints {
             $0.top.equalTo(backgroundPosterImageView.snp.bottom).offset(8)
             $0.horizontalEdges.bottom.equalTo(self.safeAreaLayoutGuide)

@@ -34,6 +34,7 @@
 		8EDE513B2C2AF56B008CCB43 /* CastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDE513A2C2AF56B008CCB43 /* CastCell.swift */; };
 		8EDE513D2C2AF584008CCB43 /* VideoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDE513C2C2AF584008CCB43 /* VideoListCell.swift */; };
 		8EDE51402C2B0072008CCB43 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDE513F2C2B0072008CCB43 /* BaseTableViewCell.swift */; };
+		8EDE51422C2B1DCF008CCB43 /* PosterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDE51412C2B1DCF008CCB43 /* PosterCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,7 @@
 		8EDE513A2C2AF56B008CCB43 /* CastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastCell.swift; sourceTree = "<group>"; };
 		8EDE513C2C2AF584008CCB43 /* VideoListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoListCell.swift; sourceTree = "<group>"; };
 		8EDE513F2C2B0072008CCB43 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
+		8EDE51412C2B1DCF008CCB43 /* PosterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +165,7 @@
 				8EDE51382C2AF53B008CCB43 /* OverViewCell.swift */,
 				8EDE513A2C2AF56B008CCB43 /* CastCell.swift */,
 				8EDE513C2C2AF584008CCB43 /* VideoListCell.swift */,
+				8EDE51412C2B1DCF008CCB43 /* PosterCollectionViewCell.swift */,
 			);
 			path = DetailScreen;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 				8E8E6D662C1717B5007CAB56 /* SecureAPI.swift in Sources */,
 				8E8E6D4B2C17157B007CAB56 /* AppDelegate.swift in Sources */,
 				8E8E6D692C1719A0007CAB56 /* ApiManager.swift in Sources */,
+				8EDE51422C2B1DCF008CCB43 /* PosterCollectionViewCell.swift in Sources */,
 				8E8E6D792C174D38007CAB56 /* Common+Extension.swift in Sources */,
 				8E8E6D8C2C1840C8007CAB56 /* Genres.swift in Sources */,
 				8EDE51392C2AF53B008CCB43 /* OverViewCell.swift in Sources */,
