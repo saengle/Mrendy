@@ -56,11 +56,25 @@ class ApiManager {
         }
     }
     
-//    func callCredit(query: String, forCredit: Bool,  completion: @escaping((Result<T, AFError) -> Void)) {
-//        
-//        let url = "https://api.themoviedb.org/3/movie/{movie_id}/credits"
-//
-//        
-//        
-//    }
+    func callRequestCredit(id: String, completion: @escaping((Result<MovieCredit, AFError>) -> Void)) {
+        let url = "https://api.themoviedb.org/3/movie/\(id)/credits"
+        
+        let parameters = ["language" : "ko-KR"]
+        
+        let headers: HTTPHeaders = [
+            "accept": "application/json",
+            "Authorization": "Bearer \(SecureAPI.apiToken)"
+        ]
+        AF.request(url, method: .get, parameters: parameters, headers: headers ).responseDecodable(of: MovieCredit.self) { response in
+            switch response.result {
+            case .success(let repositories):
+                completion(.success(repositories))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+            
+        }
+    }
+   
+    
 }
