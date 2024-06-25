@@ -13,6 +13,7 @@ class VideoListCell: BaseTableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureHierachy()
         configureLayout()
+        contentView.backgroundColor = .black
     }
     
     override func configureHierachy() {}
