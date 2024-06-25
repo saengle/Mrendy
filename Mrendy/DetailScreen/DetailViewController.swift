@@ -19,18 +19,8 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureVC()
+        fetchData()
         
-        self.apiManager.callRequestCredit(id: "786892") { result in
-            switch result {
-            case .success(let credit):
-                guard let myTrendyResult = credit.cast else { return }
-                self.castList.append(contentsOf: myTrendyResult)
-                print(self.castList)
-                self.detailView.mainTableView.reloadData()
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
         
     }
 }
@@ -40,7 +30,33 @@ extension DetailViewController {
         self.detailView.mainTableView.delegate = self
         self.detailView.mainTableView.dataSource = self
         self.detailView.mainTableView.rowHeight = UITableView.automaticDimension
+    }
+    
+    private func fetchData() {
+        let group = DispatchGroup()
         
+        group.enter()
+        DispatchQueue.global().async(group: group) {
+            self.apiManager.callRequestCredit(id: "786892") { result in
+                switch result {
+                case .success(let credit):
+                    guard let myTrendyResult = credit.cast else { return }
+                    self.castList.append(contentsOf: myTrendyResult)
+                    self.detailView.mainTableView.reloadData()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            group.leave()
+        }
+        group.enter()
+        DispatchQueue.global().async(group: group) {
+       
+            group.leave()
+        }
+        group.notify(queue: .main) {
+            self.detailView.mainTableView.reloadData()
+        }
     }
 }
 
