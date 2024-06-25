@@ -50,7 +50,7 @@ class DetailView: UIView {
         }
         mainTableView.backgroundColor = .green
         mainTableView.snp.makeConstraints {
-            $0.top.equalTo(backgroundPosterImageView.snp.bottom).offset(16)
+            $0.top.equalTo(backgroundPosterImageView.snp.bottom).offset(8)
             $0.horizontalEdges.bottom.equalTo(self.safeAreaLayoutGuide)
         }
     }
