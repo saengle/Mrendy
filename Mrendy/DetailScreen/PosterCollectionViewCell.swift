@@ -15,11 +15,9 @@ class PosterCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(posterImageView)
-        contentView.backgroundColor = .black
         posterImageView.snp.makeConstraints{
             $0.edges.equalToSuperview()
         }
-        posterImageView.backgroundColor = .systemMint
     }
     
     required init?(coder: NSCoder) {

@@ -19,6 +19,7 @@ enum APIModel {
     case trendingMovie(period: Period, page: Int)
     case searchAll(query: String, page: Int)
     case movieSimilar(id: Int, page: Int)
+    case movieRecommend(id: Int, page: Int)
     case images(id: Int)
     
     var baseURL: String {
@@ -38,6 +39,8 @@ enum APIModel {
             return   URL(string: baseURL + "movie/\(id)/images")!
         case .movieSimilar(id: let id, page: _):
             return URL(string: baseURL + "movie/\(id))/similar")!
+        case .movieRecommend(id: let id, page: let page):
+            return URL(string: baseURL + "movie/\(id))/recommendations")!
         }
     }
     
@@ -65,7 +68,8 @@ enum APIModel {
                      "page" : "\(page)"]
         case .images:
             return ["": ""]
-        case .movieSimilar(id: _, page: let page):
+        case    .movieSimilar(id: _, page: let page),
+                .movieRecommend(id: _, page: let page):
             return  [ "language" : "ko-KR",
                       "page" : String(page)]
         }

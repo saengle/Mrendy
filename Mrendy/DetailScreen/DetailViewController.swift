@@ -16,7 +16,7 @@ class DetailViewController: UIViewController {
     lazy var overView: String = ""
     lazy var backdropPath: String = ""
     lazy var posterPath: String = ""
-    lazy var similarAndRecommendList: [[Results]] = [[Results(backdropPath: "", id: 0, originalTitle: "", overview: "", posterPath: "", mediaType: "", adult: false, title: "", originalLanguage: "", genreIDS: [], popularity: 0.0, releaseDate: "", video: false, voteAverage: 0.0, voteCount: 0, originalName: "", name: "", firstAirDate: "", originCountry: [])],[Results(backdropPath: "", id: 0, originalTitle: "", overview: "", posterPath: "", mediaType: "", adult: false, title: "", originalLanguage: "", genreIDS: [], popularity: 0.0, releaseDate: "", video: false, voteAverage: 0.0, voteCount: 0, originalName: "", name: "", firstAirDate: "", originCountry: [])]]
+    lazy var similarAndRecommendList: [[Results]] = [[],[]]
     
     override func loadView(){
         view = detailView
@@ -44,22 +44,7 @@ extension DetailViewController {
     
     private func fetchData() {
         let group = DispatchGroup()
-        
-        group.enter()
-        DispatchQueue.global().async(group: group) {
-            self.apiManager.callRequestCredit(id: self.id) { result in
-                print(self.id)
-                switch result {
-                case .success(let credit):
-                    guard let myTrendyResult = credit.cast else { return }
-                    self.castList.append(contentsOf: myTrendyResult)
-                    self.detailView.mainTableView.reloadSections(IndexSet(integer: 1), with: .automatic)
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
-            group.leave()
-        }
+        // MARK:  Main View Posters
         group.enter()
         DispatchQueue.global().async(group: group) {
             self.apiManager.callRequestDetail(id: self.id) { result in
@@ -74,27 +59,57 @@ extension DetailViewController {
             }
             group.leave()
         }
+        // MARK:  TableView 2nd cell : Cast's Profiles
+        group.enter()
+        DispatchQueue.global().async(group: group) {
+            self.apiManager.callRequestCredit(id: self.id) { result in
+                switch result {
+                case .success(let credit):
+                    guard let myTrendyResult = credit.cast else { return }
+                    self.castList.append(contentsOf: myTrendyResult)
+                    self.detailView.mainTableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            group.leave()
+        }
+        // MARK:  TableView 3rd cell(CollectionView) Similar Movies
         group.enter()
         DispatchQueue.global().async(group: group) {
             if let tempId = Int(self.id) {
                 self.apiManager.callRequestTMDB(api: APIModel.movieSimilar(id: tempId, page: 1)) { result in
                     switch result {
                     case .success(let trendy):
-                        print(self.similarAndRecommendList[0].count, self.similarAndRecommendList[1].count)
                         guard let trendyResults = trendy.results else { return }
                         self.similarAndRecommendList[0] = trendyResults
-//                        print(self.similarAndRecommendList)
-                        print(self.similarAndRecommendList[0].count, self.similarAndRecommendList[1].count)
                         //pagenation위한 페이지 필요
                         self.detailView.mainTableView.reloadSections(IndexSet(integer: 2), with: .automatic)
                     case .failure(let error):
                         print(error.localizedDescription)
                     }
-                }}
-            
+                }
+            }
             group.leave()
         }
-        
+        // MARK:  TableView 4th cell(CollectionView) Recommendation Movies
+        group.enter()
+        DispatchQueue.global().async(group: group) {
+            if let tempId = Int(self.id) {
+                self.apiManager.callRequestTMDB(api: APIModel.movieRecommend(id: tempId, page: 1)) { result in
+                    switch result {
+                    case .success(let trendy):
+                        guard let trendyResults = trendy.results else { return }
+                        self.similarAndRecommendList[1] = trendyResults
+                        //pagenation위한 페이지 필요
+                        self.detailView.mainTableView.reloadSections(IndexSet(integer: 3), with: .automatic)
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+            group.leave()
+        }
         group.notify(queue: .main) {
             self.detailView.mainTableView.reloadData()
         }
@@ -106,11 +121,11 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return 1
+            return 1 // only overview
         case 1:
-            return castList.count
+            return castList.count // cast's profiles
         case 2...3:
-            return 1
+            return 1 // only collectionView
         default: return 0
         }
     }
@@ -120,12 +135,15 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     }
     // MARK:  ConfigureCell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // MARK: TableView 1st section OverView
         if indexPath.section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: OverViewCell.id, for: indexPath)
                     as? OverViewCell else { return UITableViewCell()}
             cell.configureCell(overView: overView)
             return cell
-        } else if indexPath.section == 1 {
+        } 
+        // MARK: TableView 2nd section Cast Image & Names
+        else if indexPath.section == 1 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CastCell.id, for: indexPath)
                     as? CastCell else { return UITableViewCell()}
             let data = castList[indexPath.row]
@@ -134,14 +152,15 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             guard let name = data.character else { return UITableViewCell() }
             cell.configureCell(imagePath: imagePath, realName: realName, playName: name)
             return cell
-        } else if indexPath.section == 2 || indexPath.section == 3 {
+        } 
+        // MARK:  TableView 3rd, 4th Section Similar & Recommendation Posters
+        else if indexPath.section == 2 || indexPath.section == 3 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: VideoListCell.id, for: indexPath)
                     as? VideoListCell else { return UITableViewCell()}
             cell.collectionView.dataSource = self
             cell.collectionView.delegate = self
             cell.collectionView.register(PosterCollectionViewCell.self, forCellWithReuseIdentifier: PosterCollectionViewCell.id)
             cell.collectionView.tag = indexPath.section - 2
-            print(cell.collectionView.tag)
             cell.collectionView.reloadData()
             return cell
         }  else { return UITableViewCell() }
