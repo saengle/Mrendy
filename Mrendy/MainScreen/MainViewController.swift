@@ -11,7 +11,6 @@ import Kingfisher
 
 class MainViewController: UIViewController {
     
-    let apiManager = ApiManager()
     let mainView = MainView()
     
     var trendyList: [Results] = []
@@ -24,7 +23,7 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        apiManager.callRequestTMDB(api: APIModel.trendingAll(period: Period.week, page: 1)) { result in
+        ApiManager.shared.callRequestTMDB(api: APIModel.trendingAll(period: Period.week, page: 1)) { result in
             switch result {
             case .success(let trendy):
                 guard let trendyResults = trendy.results else { return }
@@ -54,11 +53,8 @@ class MainViewController: UIViewController {
 extension MainViewController {
     @objc func searchButtonTapped() {
         let searchVC = SearchViewController()
-        self.navigationController?.modalPresentationStyle = .fullScreen
-        //        let nav = UINavigationController(rootViewController: searchVC)
-        searchVC.modalPresentationStyle = .fullScreen
-        searchVC.modalTransitionStyle = .crossDissolve
-        present(searchVC, animated: true)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        navigationController?.pushViewController(searchVC, animated: true)
     }
 }
 
@@ -104,7 +100,7 @@ extension MainViewController: UITableViewDataSourcePrefetching {
         for item in indexPaths {
             if trendyList.count - 2 == item.row && self.page < self.totalPage {
                 page += 1
-                apiManager.callRequestTMDB(api: APIModel.trendingAll(period: Period.week, page: page)) { result in
+                ApiManager.shared.callRequestTMDB(api: APIModel.trendingAll(period: Period.week, page: page)) { result in
                     switch result {
                     case .success(let trendy):
                         guard let trendyResults = trendy.results else { return }

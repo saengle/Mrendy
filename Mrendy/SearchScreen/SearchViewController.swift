@@ -11,7 +11,6 @@ import UIKit
 class SearchViewController: UIViewController {
     
     let searchView = SearchView()
-    let apiManager = ApiManager()
     
     var searchedResultsList: [Results] = []
     var myPage = 1
@@ -25,7 +24,7 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         
         searchView.backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
-        
+        navigationController?.isNavigationBarHidden = true
         //collection view, cell 연결 및 등록
         searchView.searchedCollectionView.dataSource = self
         searchView.searchedCollectionView.delegate = self
@@ -37,11 +36,14 @@ class SearchViewController: UIViewController {
         
         
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
+    }
 }
 extension SearchViewController {
     @objc func backButtonClicked() {
-        self.dismiss(animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
@@ -69,7 +71,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             // 현재 스크롤이 마지막에서 2번째를 보고있고, mypage < tatalpage 이면 추가검색
             if myListCount - 2 == item.row && self.myPage < totalPages {
                 myPage += 1
-                self.apiManager.callRequestTMDB(api: APIModel.searchAll(query: query, page: myPage)) { result in
+                ApiManager.shared.callRequestTMDB(api: APIModel.searchAll(query: query, page: myPage)) { result in
                     switch result {
                     case .success(let trendy):
                         guard let myTrendyResult = trendy.results else { return }
@@ -86,8 +88,13 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.id, for: indexPath) as? SearchCollectionViewCell {
             let vc = DetailViewController()
-            navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-            navigationController?.pushViewController(vc, animated: true)
+            if let tempID = searchedResultsList[indexPath.item].id?.codingKey.stringValue,
+                let tempOverview = searchedResultsList[indexPath.item].overview?.codingKey.stringValue {
+                vc.id = tempID
+                vc.overView = tempOverview
+                navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+                navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
 }
@@ -98,7 +105,7 @@ extension SearchViewController: UISearchBarDelegate {
         // 페이지네이션 위한 페이지 1로 리셋.
         guard let query = searchBar.text else {return}
         self.myPage = 1
-            self.apiManager.callRequestTMDB(api: APIModel.searchAll(query: query, page: myPage)) { result in
+        ApiManager.shared.callRequestTMDB(api: APIModel.searchAll(query: query, page: myPage)) { result in
             switch result {
             case .success(let trendy):
                 guard let myTrendyResult = trendy.results else { return }

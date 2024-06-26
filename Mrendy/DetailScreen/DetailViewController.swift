@@ -11,7 +11,6 @@ class DetailViewController: UIViewController {
     
     lazy var id = ""
     let detailView = DetailView()
-    let apiManager = ApiManager()
     lazy var castList: [Cast] = []
     lazy var overView: String = ""
     lazy var backdropPath: String = ""
@@ -34,6 +33,7 @@ class DetailViewController: UIViewController {
 
 extension DetailViewController {
     private func configureVC() {
+        navigationController?.isNavigationBarHidden = false
         self.detailView.mainTableView.delegate = self
         self.detailView.mainTableView.dataSource = self
         self.detailView.mainTableView.rowHeight = UITableView.automaticDimension
@@ -47,22 +47,35 @@ extension DetailViewController {
         // MARK:  Main View Posters
         group.enter()
         DispatchQueue.global().async(group: group) {
-            self.apiManager.callRequestDetail(id: self.id) { result in
-                switch result {
-                case .success(let detail):
-                    guard let tempBackdropPath = detail.backdropPath else { return }
-                    guard let tempPosterPath = detail.posterPath else { return }
-                    self.detailView.configureView(backdropPath: tempBackdropPath, posterPath: tempPosterPath)
-                case .failure(let error):
-                    print(error.localizedDescription)
+//            self.apiManager.callRequestDetail(id: self.id) { result in
+//                switch result {
+//                case .success(let detail):
+//                    guard let tempBackdropPath = detail.backdropPath else { return }
+//                    guard let tempPosterPath = detail.posterPath else { return }
+//                    self.detailView.configureView(backdropPath: tempBackdropPath, posterPath: tempPosterPath)
+//                case .failure(let error):
+//                    print(error.localizedDescription)
+//                }
+//            }
+            if let tempId = Int(self.id) {
+                ApiManager.shared.callRequestTMDB2(api: APIModel.images(id: tempId), type: VideoDetail.self) { result in
+                    switch result {
+                    case .success(let detail):
+                        print(detail)
+                        guard let tempBackdropPath = detail.backdropPath else { return }
+                        guard let tempPosterPath = detail.posterPath else { return }
+                        self.detailView.configureView(backdropPath: tempBackdropPath, posterPath: tempPosterPath)
+                    case .failure(let error):
+                        print(error.localizedDescription)
                 }
+            }
             }
             group.leave()
         }
         // MARK:  TableView 2nd cell : Cast's Profiles
         group.enter()
         DispatchQueue.global().async(group: group) {
-            self.apiManager.callRequestCredit(id: self.id) { result in
+            ApiManager.shared.callRequestCredit(id: self.id) { result in
                 switch result {
                 case .success(let credit):
                     guard let myTrendyResult = credit.cast else { return }
@@ -78,7 +91,7 @@ extension DetailViewController {
         group.enter()
         DispatchQueue.global().async(group: group) {
             if let tempId = Int(self.id) {
-                self.apiManager.callRequestTMDB(api: APIModel.movieSimilar(id: tempId, page: 1)) { result in
+                ApiManager.shared.callRequestTMDB(api: APIModel.movieSimilar(id: tempId, page: 1)) { result in
                     switch result {
                     case .success(let trendy):
                         guard let trendyResults = trendy.results else { return }
@@ -96,7 +109,7 @@ extension DetailViewController {
         group.enter()
         DispatchQueue.global().async(group: group) {
             if let tempId = Int(self.id) {
-                self.apiManager.callRequestTMDB(api: APIModel.movieRecommend(id: tempId, page: 1)) { result in
+                ApiManager.shared.callRequestTMDB(api: APIModel.movieRecommend(id: tempId, page: 1)) { result in
                     switch result {
                     case .success(let trendy):
                         guard let trendyResults = trendy.results else { return }
