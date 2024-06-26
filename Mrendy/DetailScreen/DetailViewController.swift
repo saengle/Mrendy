@@ -23,8 +23,10 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         configureVC()
         fetchData()
-        
-        
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.detailView.mainTableView.reloadSections(IndexSet(integer: 1), with: .automatic)
     }
 }
 
@@ -33,6 +35,9 @@ extension DetailViewController {
         self.detailView.mainTableView.delegate = self
         self.detailView.mainTableView.dataSource = self
         self.detailView.mainTableView.rowHeight = UITableView.automaticDimension
+        self.detailView.mainTableView.register(OverViewCell.self, forCellReuseIdentifier: OverViewCell.id)
+        self.detailView.mainTableView.register(CastCell.self, forCellReuseIdentifier: CastCell.id)
+        self.detailView.mainTableView.register(VideoListCell.self, forCellReuseIdentifier: VideoListCell.id)
     }
     
     private func fetchData() {
@@ -41,6 +46,7 @@ extension DetailViewController {
         group.enter()
         DispatchQueue.global().async(group: group) {
             self.apiManager.callRequestCredit(id: self.id) { result in
+                print(self.id)
                 switch result {
                 case .success(let credit):
                     guard let myTrendyResult = credit.cast else { return }
@@ -57,13 +63,9 @@ extension DetailViewController {
             self.apiManager.callRequestDetail(id: self.id) { result in
                 switch result {
                 case .success(let detail):
-                    guard let tempOverView = detail.overview else { return }
-                    self.overView = tempOverView
-                    
                     guard let tempBackdropPath = detail.backdropPath else { return }
                     guard let tempPosterPath = detail.posterPath else { return }
                     self.detailView.configureView(backdropPath: tempBackdropPath, posterPath: tempPosterPath)
-                    self.detailView.mainTableView.reloadSections(IndexSet(integer: 0), with: .automatic)
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
@@ -95,15 +97,13 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
     }
     // MARK:  ConfigureCell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         if indexPath.section == 0 {
-            self.detailView.mainTableView.register(OverViewCell.self, forCellReuseIdentifier: OverViewCell.id)
             guard let cell = tableView.dequeueReusableCell(withIdentifier: OverViewCell.id, for: indexPath)
                     as? OverViewCell else { return UITableViewCell()}
             cell.configureCell(overView: overView)
+            print(self.overView)
             return cell
         } else if indexPath.section == 1 {
-            self.detailView.mainTableView.register(CastCell.self, forCellReuseIdentifier: CastCell.id)
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CastCell.id, for: indexPath)
                     as? CastCell else { return UITableViewCell()}
              let data = castList[indexPath.row]
@@ -113,10 +113,12 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             cell.configureCell(imagePath: imagePath, realName: realName, playName: name)
             return cell
         } else if indexPath.section == 2 || indexPath.section == 3 {
-            self.detailView.mainTableView.register(VideoListCell.self, forCellReuseIdentifier: VideoListCell.id)
+          
             guard let cell = tableView.dequeueReusableCell(withIdentifier: VideoListCell.id, for: indexPath)
                     as? VideoListCell else { return UITableViewCell()}
-   
+            cell.collectionView.dataSource = self
+            cell.collectionView.delegate = self
+            cell.collectionView.register(PosterCollectionViewCell.self, forCellWithReuseIdentifier: PosterCollectionViewCell.id)
             return cell
         } else { return UITableViewCell() }
     }

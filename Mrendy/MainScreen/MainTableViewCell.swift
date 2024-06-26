@@ -11,6 +11,7 @@ import Kingfisher
 import SnapKit
 
 class MainTableViewCell: UITableViewCell {
+    static let id = String(describing: MainTableViewCell.self)
     
     let dateLabel = UILabel()
     let genreLabel = UILabel()

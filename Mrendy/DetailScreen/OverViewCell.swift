@@ -11,6 +11,7 @@ import SnapKit
 
 class OverViewCell: BaseTableViewCell {
     
+    static let id = String(describing: OverViewCell.self)
     let overviewLabel = {
         let lb = UILabel()
         lb.font = .systemFont(ofSize: 13)
@@ -29,10 +30,12 @@ class OverViewCell: BaseTableViewCell {
     }
     
     override func configureHierachy() {
+        print(#function)
         contentView.addSubview(overviewLabel)
         contentView.addSubview(resizeButton)
     }
     override func configureLayout() {
+        print(#function, "why???")
         overviewLabel.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview().inset(28)
         }

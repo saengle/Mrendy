@@ -1,6 +1,6 @@
 //
 //  TMDBAPI.swift
-//  URLSessionGCD
+//  Mrendy
 //
 //  Created by 쌩 on 6/26/24.
 //
@@ -15,23 +15,22 @@ enum Period: String{
 enum APIModel {
     
     case trendingAll(period: Period, page: Int)
-    case trendingTV
-    case trendingMovie
+    case trendingTV(period: Period, page: Int)
+    case trendingMovie(period: Period, page: Int)
     case search(query: String, page: Int)
     case images(id: Int)
     
     var baseURL: String {
         return "https://api.themoviedb.org/3/"
     }
-    //https://api.themoviedb.org/3/trending/all/day
     var endpoint: URL {
         switch self {
         case .trendingAll(period: let period, page: let page):
             return URL(string: baseURL + "trending/all" + period.rawValue)!
-        case .trendingTV:
-            return URL(string: baseURL + "trending/tv/day")!
-        case .trendingMovie:
-            return URL(string: baseURL + "trending/movie/day")!
+        case .trendingTV(period: let period, page: let page):
+            return URL(string: baseURL + "trending/tv" + period.rawValue)!
+        case .trendingMovie(period: let period, page: let page):
+            return URL(string: baseURL + "trending/movie" + period.rawValue)!
         case .search:
             return   URL(string: baseURL + "search/multi")!
         case .images(let id):
@@ -52,11 +51,11 @@ enum APIModel {
     
     var parameter: [String: String]{
         switch self {
-        case .trendingAll(period: let period, page: let page):
+        case    .trendingAll(period: let period, page: let page),
+                .trendingTV(period: let period, page: let page),
+                .trendingMovie(period: let period, page: let page):
             return  [ "language" : "ko-KR",
                       "page" : String(page)]
-        case .trendingTV, .trendingMovie:
-            return ["language": "ko-KR"]
         case.search(query: let query, page: let page):
             return [ "query" : query ,
                      "language" : "ko-KR",

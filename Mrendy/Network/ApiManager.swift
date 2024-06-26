@@ -32,8 +32,10 @@ class ApiManager {
             "accept": "application/json",
             "Authorization": "Bearer \(SecureAPI.apiToken)"
         ]
+        
         AF.request(url, method: .get, parameters: parameters, headers: headers ).responseDecodable(of: MovieCredit.self) { response in
             switch response.result {
+              
             case .success(let repositories):
                 completion(.success(repositories))
             case .failure(let error):

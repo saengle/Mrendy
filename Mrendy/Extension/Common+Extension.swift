@@ -7,6 +7,10 @@
 
 import UIKit
 
-extension UIView {
-    static let id = String(describing: UIView.self)
+extension UIViewController {
+    static let id = String(describing: UIViewController.self)
+}
+
+extension UICollectionViewCell {
+    static let id = String(describing: UICollectionViewCell.self)
 }

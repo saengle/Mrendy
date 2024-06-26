@@ -88,9 +88,13 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource{
     // MARK:  cell touch -> DetailScreen
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = DetailViewController()
-        vc.id = String(describing: trendyList[indexPath.row].id)
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-        navigationController?.pushViewController(vc, animated: true)
+        if let tempID = trendyList[indexPath.row].id?.codingKey.stringValue,
+            let tempOverview = trendyList[indexPath.row].overview?.codingKey.stringValue {
+            vc.id = tempID
+            vc.overView = tempOverview
+            navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 
