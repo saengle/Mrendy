@@ -64,17 +64,17 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
          let totalPages = self.totalPage
          let myListCount = self.searchedResultsList.count
+        guard let query = self.searchView.searchBar.text else { return }
         for item in indexPaths {
             // 현재 스크롤이 마지막에서 2번째를 보고있고, mypage < tatalpage 이면 추가검색
             if myListCount - 2 == item.row && self.myPage < totalPages {
                 myPage += 1
-                self.apiManager.callRequestSearch(query: self.searchView.searchBar.text!, page: myPage) { result in
+                self.apiManager.callRequestTrendy(api: APIModel.search(query: query, page: myPage)) { result in
                     switch result {
                     case .success(let trendy):
                         guard let myTrendyResult = trendy.results else { return }
                         self.searchedResultsList.append(contentsOf: myTrendyResult)
                         self.searchView.searchedCollectionView.reloadData()
-//                        print(self.searchedResultsList)
                     case .failure(let error):
                         print(error.localizedDescription)
                     }
@@ -85,7 +85,6 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     // MARK:  cell touch -> DetailScreen
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.id, for: indexPath) as? SearchCollectionViewCell {
-            print("클릭 됨")
             let vc = DetailViewController()
             navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
             navigationController?.pushViewController(vc, animated: true)
@@ -94,19 +93,18 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 }
 
 extension SearchViewController: UISearchBarDelegate {
-    
+    // MARK:  Search button clicked - search api
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         // 페이지네이션 위한 페이지 1로 리셋.
+        guard let query = searchBar.text else {return}
         self.myPage = 1
-        self.apiManager.callRequestSearch(query: searchBar.text!, page: myPage) { result in
-//            self.apiManager.callRequestSearch2(api: APIModel.search(query: query, page: myPage)) { result in
+            self.apiManager.callRequestTrendy(api: APIModel.search(query: query, page: myPage)) { result in
             switch result {
             case .success(let trendy):
                 guard let myTrendyResult = trendy.results else { return }
                 self.searchedResultsList = myTrendyResult
                 guard let total = trendy.totalPages else { return }
                 self.totalPage = total
-//                print("이번에 받아오는 total = \(total)")
                 self.searchView.searchedCollectionView.scrollsToTop = true
                 self.searchView.searchedCollectionView.reloadData()
                 self.searchView.searchedCollectionView.scrollsToTop = true
