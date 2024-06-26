@@ -99,6 +99,7 @@ extension SearchViewController: UISearchBarDelegate {
         // 페이지네이션 위한 페이지 1로 리셋.
         self.myPage = 1
         self.apiManager.callRequestSearch(query: searchBar.text!, page: myPage) { result in
+//            self.apiManager.callRequestSearch2(api: APIModel.search(query: query, page: myPage)) { result in
             switch result {
             case .success(let trendy):
                 guard let myTrendyResult = trendy.results else { return }
@@ -113,6 +114,7 @@ extension SearchViewController: UISearchBarDelegate {
                 print(error.localizedDescription)
             }
         }
+        
         dismissKeyboard()
     }
     

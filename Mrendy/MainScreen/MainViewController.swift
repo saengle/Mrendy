@@ -24,7 +24,7 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        apiManager.callRequestTrendy(page: page) { result in
+        apiManager.callRequestTrendy(api: APIModel.trendingAll(period: Period.week, page: 1)) { result in
             switch result {
             case .success(let trendy):
                 guard let trendyResults = trendy.results else { return }
@@ -88,6 +88,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource{
     // MARK:  cell touch -> DetailScreen
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = DetailViewController()
+        vc.id = String(describing: trendyList[indexPath.row].id)
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -99,7 +100,7 @@ extension MainViewController: UITableViewDataSourcePrefetching {
         for item in indexPaths {
             if trendyList.count - 2 == item.row && self.page < self.totalPage {
                 page += 1
-                apiManager.callRequestTrendy(page: page) { result in
+                apiManager.callRequestTrendy(api: APIModel.trendingAll(period: Period.week, page: page)) { result in
                     switch result {
                     case .success(let trendy):
                         guard let trendyResults = trendy.results else { return }

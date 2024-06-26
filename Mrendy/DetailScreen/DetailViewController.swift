@@ -9,6 +9,7 @@ import UIKit
 
 class DetailViewController: UIViewController {
     
+    lazy var id = ""
     let detailView = DetailView()
     let apiManager = ApiManager()
     lazy var castList: [Cast] = []
@@ -39,7 +40,7 @@ extension DetailViewController {
         
         group.enter()
         DispatchQueue.global().async(group: group) {
-            self.apiManager.callRequestCredit(id: "786892") { result in
+            self.apiManager.callRequestCredit(id: self.id) { result in
                 switch result {
                 case .success(let credit):
                     guard let myTrendyResult = credit.cast else { return }
@@ -53,7 +54,7 @@ extension DetailViewController {
         }
         group.enter()
         DispatchQueue.global().async(group: group) {
-            self.apiManager.callRequestDetail(id: "786892") { result in
+            self.apiManager.callRequestDetail(id: self.id) { result in
                 switch result {
                 case .success(let detail):
                     guard let tempOverView = detail.overview else { return }
