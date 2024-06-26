@@ -16,6 +16,8 @@ class DetailViewController: UIViewController {
     lazy var overView: String = ""
     lazy var backdropPath: String = ""
     lazy var posterPath: String = ""
+    lazy var similarAndRecommendList: [[Results]] = [[Results(backdropPath: "", id: 0, originalTitle: "", overview: "", posterPath: "", mediaType: "", adult: false, title: "", originalLanguage: "", genreIDS: [], popularity: 0.0, releaseDate: "", video: false, voteAverage: 0.0, voteCount: 0, originalName: "", name: "", firstAirDate: "", originCountry: [])],[Results(backdropPath: "", id: 0, originalTitle: "", overview: "", posterPath: "", mediaType: "", adult: false, title: "", originalLanguage: "", genreIDS: [], popularity: 0.0, releaseDate: "", video: false, voteAverage: 0.0, voteCount: 0, originalName: "", name: "", firstAirDate: "", originCountry: [])]]
+    
     override func loadView(){
         view = detailView
     }
@@ -72,6 +74,27 @@ extension DetailViewController {
             }
             group.leave()
         }
+        group.enter()
+        DispatchQueue.global().async(group: group) {
+            if let tempId = Int(self.id) {
+                self.apiManager.callRequestTMDB(api: APIModel.movieSimilar(id: tempId, page: 1)) { result in
+                    switch result {
+                    case .success(let trendy):
+                        print(self.similarAndRecommendList[0].count, self.similarAndRecommendList[1].count)
+                        guard let trendyResults = trendy.results else { return }
+                        self.similarAndRecommendList[0] = trendyResults
+//                        print(self.similarAndRecommendList)
+                        print(self.similarAndRecommendList[0].count, self.similarAndRecommendList[1].count)
+                        //pagenation위한 페이지 필요
+                        self.detailView.mainTableView.reloadSections(IndexSet(integer: 2), with: .automatic)
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }}
+            
+            group.leave()
+        }
+        
         group.notify(queue: .main) {
             self.detailView.mainTableView.reloadData()
         }
@@ -101,26 +124,27 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: OverViewCell.id, for: indexPath)
                     as? OverViewCell else { return UITableViewCell()}
             cell.configureCell(overView: overView)
-            print(self.overView)
             return cell
         } else if indexPath.section == 1 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CastCell.id, for: indexPath)
                     as? CastCell else { return UITableViewCell()}
-             let data = castList[indexPath.row]
+            let data = castList[indexPath.row]
             guard let imagePath = data.profilePath else { return UITableViewCell() }
             guard let realName = data.originalName else { return UITableViewCell() }
             guard let name = data.character else { return UITableViewCell() }
             cell.configureCell(imagePath: imagePath, realName: realName, playName: name)
             return cell
         } else if indexPath.section == 2 || indexPath.section == 3 {
-          
             guard let cell = tableView.dequeueReusableCell(withIdentifier: VideoListCell.id, for: indexPath)
                     as? VideoListCell else { return UITableViewCell()}
             cell.collectionView.dataSource = self
             cell.collectionView.delegate = self
             cell.collectionView.register(PosterCollectionViewCell.self, forCellWithReuseIdentifier: PosterCollectionViewCell.id)
+            cell.collectionView.tag = indexPath.section - 2
+            print(cell.collectionView.tag)
+            cell.collectionView.reloadData()
             return cell
-        } else { return UITableViewCell() }
+        }  else { return UITableViewCell() }
     }
     // MARK:  Header Title
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -129,8 +153,10 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             return "OvewView"
         case 1:
             return "Cast"
-        case 2...3:
-            return "울랄라"
+        case 2:
+            return "Similar"
+        case 3:
+            return "Recommend"
         default: return ""
         }
     }
@@ -138,13 +164,14 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension DetailViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return similarAndRecommendList[collectionView.tag].count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCollectionViewCell.id, for: indexPath) as! PosterCollectionViewCell
-        cell.backgroundColor = .gray
-            print("셀이 불러와지질 않아 !?")
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCollectionViewCell.id, for: indexPath) as! PosterCollectionViewCell
+        if let data = similarAndRecommendList[collectionView.tag][indexPath.item].posterPath {
+            cell.configureCollectionViewCell(imagePath: data)
+        }
         return cell
     }
 }

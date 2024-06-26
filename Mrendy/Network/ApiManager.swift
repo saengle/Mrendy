@@ -12,7 +12,7 @@ import Alamofire
 class ApiManager {
     
     
-    func callRequestTrendy(api: APIModel, completion: @escaping((Result<Trendy, AFError>) -> Void)) {
+    func callRequestTMDB(api: APIModel, completion: @escaping((Result<Trendy, AFError>) -> Void)) {
         AF.request(api.endpoint, method: api.method, parameters: api.parameter, encoding: api.encoding, headers: api.header ).responseDecodable(of: Trendy.self) { response in
             switch response.result {
             case .success(let repositories):

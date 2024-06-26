@@ -39,12 +39,10 @@ class DetailView: UIView {
         [backgroundPosterImageView, posterImageView, mainTableView].forEach{addSubview($0)}
     }
     private func configureLayout() {
-        backgroundPosterImageView.backgroundColor = .systemMint
         backgroundPosterImageView.snp.makeConstraints{
             $0.top.horizontalEdges.equalTo(self.safeAreaLayoutGuide)
             $0.height.equalTo(UIScreen.main.bounds.height / 5)
         }
-        posterImageView.backgroundColor = .white
         posterImageView.snp.makeConstraints{
             $0.top.bottom.equalTo(backgroundPosterImageView).inset(16)
             $0.leading.equalTo(backgroundPosterImageView.snp.leading).inset(16)

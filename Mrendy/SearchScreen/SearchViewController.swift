@@ -69,7 +69,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             // 현재 스크롤이 마지막에서 2번째를 보고있고, mypage < tatalpage 이면 추가검색
             if myListCount - 2 == item.row && self.myPage < totalPages {
                 myPage += 1
-                self.apiManager.callRequestTrendy(api: APIModel.search(query: query, page: myPage)) { result in
+                self.apiManager.callRequestTMDB(api: APIModel.searchAll(query: query, page: myPage)) { result in
                     switch result {
                     case .success(let trendy):
                         guard let myTrendyResult = trendy.results else { return }
@@ -98,7 +98,7 @@ extension SearchViewController: UISearchBarDelegate {
         // 페이지네이션 위한 페이지 1로 리셋.
         guard let query = searchBar.text else {return}
         self.myPage = 1
-            self.apiManager.callRequestTrendy(api: APIModel.search(query: query, page: myPage)) { result in
+            self.apiManager.callRequestTMDB(api: APIModel.searchAll(query: query, page: myPage)) { result in
             switch result {
             case .success(let trendy):
                 guard let myTrendyResult = trendy.results else { return }

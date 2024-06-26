@@ -7,6 +7,8 @@
 
 import UIKit
 
+import Kingfisher
+
 class PosterCollectionViewCell: UICollectionViewCell {
     
     let posterImageView = UIImageView()
@@ -18,10 +20,23 @@ class PosterCollectionViewCell: UICollectionViewCell {
             $0.edges.equalToSuperview()
         }
         posterImageView.backgroundColor = .systemMint
-        print("셀 인잇 !!!!!!!!!!")
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    func configureCollectionViewCell(imagePath: String) {
+        if let url = URL(string: "https://image.tmdb.org/t/p/w500/\(String(describing: imagePath))") {
+             let processor = DownsamplingImageProcessor(size:  posterImageView.bounds.size)
+             |> RoundCornerImageProcessor(cornerRadius: 5)
+            posterImageView.kf.indicatorType = .activity
+            posterImageView.kf.setImage(
+                 with: url,
+                 placeholder: UIImage(named: "placeholderImage"),
+                 options: [.processor(processor),
+                           .scaleFactor(UIScreen.main.scale),
+                           .transition(.fade(1)),
+                           .cacheOriginalImage])
+         }
     }
 }
