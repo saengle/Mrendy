@@ -12,7 +12,6 @@ import SnapKit
 
 class CastCell: BaseTableViewCell {
     
-    static let id = String(describing: CastCell.self)
     let posterIamge = UIImageView()
     let realNameLabel = UILabel()
     let playNameLabel = UILabel()

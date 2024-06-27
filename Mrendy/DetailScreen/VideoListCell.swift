@@ -11,7 +11,6 @@ import SnapKit
 
 class VideoListCell: BaseTableViewCell {
     
-    static let id = String(describing: VideoListCell.self)
     
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout())
     

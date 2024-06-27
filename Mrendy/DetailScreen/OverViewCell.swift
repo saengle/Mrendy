@@ -11,7 +11,6 @@ import SnapKit
 
 class OverViewCell: BaseTableViewCell {
     
-    static let id = String(describing: OverViewCell.self)
     let overviewLabel = {
         let lb = UILabel()
         lb.font = .systemFont(ofSize: 13)

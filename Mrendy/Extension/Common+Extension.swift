@@ -7,10 +7,22 @@
 
 import UIKit
 
-extension UIViewController {
-    static let id = String(describing: UIViewController.self)
+protocol ReuseIdentifying {
+    static var id: String { get }
 }
 
-extension UICollectionViewCell {
-    static let id = String(describing: UICollectionViewCell.self)
+extension UIViewController: ReuseIdentifying {
+    static var id: String {
+        return String(describing: self)
+    }
+}
+extension UICollectionViewCell: ReuseIdentifying {
+    static var id: String {
+        return String(describing: self)
+    }
+}
+extension UITableViewCell: ReuseIdentifying {
+    static var id: String {
+        return String(describing: self)
+    }
 }
