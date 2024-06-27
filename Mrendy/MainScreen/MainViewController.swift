@@ -23,7 +23,7 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        ApiManager.shared.callRequestTMDB(api: APIModel.trendingAll(period: Period.week, page: 1)) { result in
+        ApiManager.shared.callRequestTMDB(api: APIModel.trendingAll(period: Period.week, page: page), type: Trendy.self) { result in
             switch result {
             case .success(let trendy):
                 guard let trendyResults = trendy.results else { return }
@@ -100,7 +100,7 @@ extension MainViewController: UITableViewDataSourcePrefetching {
         for item in indexPaths {
             if trendyList.count - 2 == item.row && self.page < self.totalPage {
                 page += 1
-                ApiManager.shared.callRequestTMDB(api: APIModel.trendingAll(period: Period.week, page: page)) { result in
+                ApiManager.shared.callRequestTMDB(api: APIModel.trendingAll(period: Period.week, page: page), type: Trendy.self) { result in
                     switch result {
                     case .success(let trendy):
                         guard let trendyResults = trendy.results else { return }

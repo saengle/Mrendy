@@ -47,36 +47,26 @@ extension DetailViewController {
         // MARK:  Main View Posters
         group.enter()
         DispatchQueue.global().async(group: group) {
-            ApiManager.shared.callRequestDetail(id: self.id) { result in
-                switch result {
-                case .success(let detail):
-                    guard let tempBackdropPath = detail.backdropPath else { return }
-                    guard let tempPosterPath = detail.posterPath else { return }
-                    self.detailView.configureView(backdropPath: tempBackdropPath, posterPath: tempPosterPath)
-                case .failure(let error):
-                    print(error.localizedDescription)
+            if let tempId = Int(self.id) {
+                ApiManager.shared.callRequestTMDB(api: APIModel.movieDetail(id: tempId), type: VideoDetail.self) { result in
+                    switch result {
+                    case .success(let detail):
+                        print(detail)
+                        guard let tempBackdropPath = detail.backdropPath else { return }
+                        guard let tempPosterPath = detail.posterPath else { return }
+                        self.detailView.configureView(backdropPath: tempBackdropPath, posterPath: tempPosterPath)
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
                 }
             }
-            //            if let tempId = Int(self.id) {
-            //                ApiManager.shared.callRequestTMDB2(api: APIModel.images(id: tempId), type: VideoDetail.self) { result in
-            //                    switch result {
-            //                    case .success(let detail):
-            //                        print(detail)
-            //                        guard let tempBackdropPath = detail.backdropPath else { return }
-            //                        guard let tempPosterPath = detail.posterPath else { return }
-            //                        self.detailView.configureView(backdropPath: tempBackdropPath, posterPath: tempPosterPath)
-            //                    case .failure(let error):
-            //                        print(error.localizedDescription)
-            //                    }
-            //                }
-            //            }
             group.leave()
         }
         // MARK:  TableView 2nd cell : Cast's Profiles
         group.enter()
         DispatchQueue.global().async(group: group) {
             if let tempId = Int(self.id) {
-                ApiManager.shared.callRequestCredit(api:APIModel.movieCredit(id: tempId)) { result in
+                ApiManager.shared.callRequestTMDB(api:APIModel.movieCredit(id: tempId), type: MovieCredit.self) { result in
                     switch result {
                     case .success(let credit):
                         guard let myTrendyResult = credit.cast else { return }
@@ -93,7 +83,7 @@ extension DetailViewController {
         group.enter()
         DispatchQueue.global().async(group: group) {
             if let tempId = Int(self.id) {
-                ApiManager.shared.callRequestTMDB(api: APIModel.movieSimilar(id: tempId, page: 1)) { result in
+                ApiManager.shared.callRequestTMDB(api: APIModel.movieSimilar(id: tempId, page: 1), type: Trendy.self) { result in
                     switch result {
                     case .success(let trendy):
                         guard let trendyResults = trendy.results else { return }
@@ -111,7 +101,7 @@ extension DetailViewController {
         group.enter()
         DispatchQueue.global().async(group: group) {
             if let tempId = Int(self.id) {
-                ApiManager.shared.callRequestTMDB(api: APIModel.movieRecommend(id: tempId, page: 1)) { result in
+                ApiManager.shared.callRequestTMDB(api: APIModel.movieRecommend(id: tempId, page: 1), type: Trendy.self) { result in
                     switch result {
                     case .success(let trendy):
                         guard let trendyResults = trendy.results else { return }
