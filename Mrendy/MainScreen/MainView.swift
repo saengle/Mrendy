@@ -19,8 +19,6 @@ class MainView: UIView {
         self.addSubview(tableView)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorColor = .clear
-        
-        
         tableView.snp.makeConstraints {
             $0.bottom.top.equalTo(self.safeAreaLayoutGuide)
             $0.leading.trailing.equalTo(self.safeAreaLayoutGuide).inset(16)

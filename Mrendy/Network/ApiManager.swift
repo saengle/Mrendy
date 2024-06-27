@@ -16,11 +16,7 @@ class ApiManager {
     private init() {}
 
     func callRequestTMDB<T: Decodable>(api: APIModel, type: T.Type = T.self, completion: @escaping((Result<T, AFError>) -> Void)) {
-        AF.request(api.endpoint, method: api.method, parameters: api.parameter, encoding: api.encoding, headers: api.header ).responseString(completionHandler: { data in
-            print(data)
-        })
-            .responseDecodable(of: T.self) { response in
-            print(response)
+        AF.request(api.endpoint, method: api.method, parameters: api.parameter, encoding: api.encoding, headers: api.header ).responseDecodable(of: T.self) { response in
             switch response.result {
             case .success(let repositories):
                 completion(.success(repositories))

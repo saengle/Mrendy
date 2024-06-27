@@ -23,7 +23,6 @@ class OverViewCell: BaseTableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureHierachy()
         configureLayout()
-        overviewLabel.text = "아주아주긴글긴글긴글긴글긴글아주아주긴글긴글긴글긴글긴글아주아주긴글긴글긴글긴글긴글아주아주긴글긴글긴글긴글긴글아주아주긴글긴글긴글긴글긴글아주아주긴글긴글긴글긴글긴글아주아주긴글긴글긴글긴글긴글아주아주긴글긴글긴글긴글긴글아주아주긴글긴글긴글긴글긴글아주아주긴글긴글긴글긴글긴글아주아주긴글긴글긴글긴글긴글아주아주긴글긴글긴글긴글긴글아주아주긴글긴글긴글긴글긴글"
         overviewLabel.numberOfLines = 3
         resizeButton.setImage(UIImage(systemName: "chevron.down"), for: .normal)
         resizeButton.tintColor = .black

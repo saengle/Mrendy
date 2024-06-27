@@ -112,15 +112,11 @@ class MainTableViewCell: UITableViewCell {
         
         deetailStackView.backgroundColor = .white
         
-        titleLabel.text = "테스트용 타이틀"
-        
-        descriptionLabel.text = "배우이름이 이러쿵 저러쿵"
         descriptionLabel.textColor = .systemGray
         descriptionLabel.font = .systemFont(ofSize: 12)
         
         lineView.backgroundColor = .black
         
-        detailLabel.text = "자세히보기"
         detailLabel.font = .systemFont(ofSize: 12)
         
         arrowButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
