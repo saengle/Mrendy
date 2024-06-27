@@ -27,6 +27,7 @@ class ApiManager {
     }
     func callRequestTMDB2<T: Decodable>(api: APIModel, type: T.Type = T.self, completion: @escaping((Result<T, AFError>) -> Void)) {
         AF.request(api.endpoint, method: api.method, parameters: api.parameter, encoding: api.encoding, headers: api.header ).responseDecodable(of: T.self) { response in
+            print(response)
             switch response.result {
             case .success(let repositories):
                 completion(.success(repositories))
@@ -36,17 +37,8 @@ class ApiManager {
         }
     }
     
-    func callRequestCredit(id: String, completion: @escaping((Result<MovieCredit, AFError>) -> Void)) {
-        let url = "https://api.themoviedb.org/3/movie/\(id)/credits"
-        
-        let parameters = ["language" : "ko-KR"]
-        
-        let headers: HTTPHeaders = [
-            "accept": "application/json",
-            "Authorization": "Bearer \(SecureAPI.apiToken)"
-        ]
-        
-        AF.request(url, method: .get, parameters: parameters, headers: headers ).responseDecodable(of: MovieCredit.self) { response in
+    func callRequestCredit(api: APIModel, completion: @escaping((Result<MovieCredit, AFError>) -> Void)) {
+        AF.request(api.endpoint, method: api.method, parameters: api.parameter, encoding: api.encoding, headers: api.header).responseDecodable(of: MovieCredit.self) { response in
             switch response.result {
               
             case .success(let repositories):

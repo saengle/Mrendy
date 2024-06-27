@@ -30,12 +30,10 @@ class OverViewCell: BaseTableViewCell {
     }
     
     override func configureHierachy() {
-        print(#function)
         contentView.addSubview(overviewLabel)
         contentView.addSubview(resizeButton)
     }
     override func configureLayout() {
-        print(#function, "why???")
         overviewLabel.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview().inset(28)
         }

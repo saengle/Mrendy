@@ -47,42 +47,44 @@ extension DetailViewController {
         // MARK:  Main View Posters
         group.enter()
         DispatchQueue.global().async(group: group) {
-//            self.apiManager.callRequestDetail(id: self.id) { result in
-//                switch result {
-//                case .success(let detail):
-//                    guard let tempBackdropPath = detail.backdropPath else { return }
-//                    guard let tempPosterPath = detail.posterPath else { return }
-//                    self.detailView.configureView(backdropPath: tempBackdropPath, posterPath: tempPosterPath)
-//                case .failure(let error):
-//                    print(error.localizedDescription)
-//                }
-//            }
-            if let tempId = Int(self.id) {
-                ApiManager.shared.callRequestTMDB2(api: APIModel.images(id: tempId), type: VideoDetail.self) { result in
-                    switch result {
-                    case .success(let detail):
-                        print(detail)
-                        guard let tempBackdropPath = detail.backdropPath else { return }
-                        guard let tempPosterPath = detail.posterPath else { return }
-                        self.detailView.configureView(backdropPath: tempBackdropPath, posterPath: tempPosterPath)
-                    case .failure(let error):
-                        print(error.localizedDescription)
+            ApiManager.shared.callRequestDetail(id: self.id) { result in
+                switch result {
+                case .success(let detail):
+                    guard let tempBackdropPath = detail.backdropPath else { return }
+                    guard let tempPosterPath = detail.posterPath else { return }
+                    self.detailView.configureView(backdropPath: tempBackdropPath, posterPath: tempPosterPath)
+                case .failure(let error):
+                    print(error.localizedDescription)
                 }
             }
-            }
+            //            if let tempId = Int(self.id) {
+            //                ApiManager.shared.callRequestTMDB2(api: APIModel.images(id: tempId), type: VideoDetail.self) { result in
+            //                    switch result {
+            //                    case .success(let detail):
+            //                        print(detail)
+            //                        guard let tempBackdropPath = detail.backdropPath else { return }
+            //                        guard let tempPosterPath = detail.posterPath else { return }
+            //                        self.detailView.configureView(backdropPath: tempBackdropPath, posterPath: tempPosterPath)
+            //                    case .failure(let error):
+            //                        print(error.localizedDescription)
+            //                    }
+            //                }
+            //            }
             group.leave()
         }
         // MARK:  TableView 2nd cell : Cast's Profiles
         group.enter()
         DispatchQueue.global().async(group: group) {
-            ApiManager.shared.callRequestCredit(id: self.id) { result in
-                switch result {
-                case .success(let credit):
-                    guard let myTrendyResult = credit.cast else { return }
-                    self.castList.append(contentsOf: myTrendyResult)
-                    self.detailView.mainTableView.reloadSections(IndexSet(integer: 1), with: .automatic)
-                case .failure(let error):
-                    print(error.localizedDescription)
+            if let tempId = Int(self.id) {
+                ApiManager.shared.callRequestCredit(api:APIModel.movieCredit(id: tempId)) { result in
+                    switch result {
+                    case .success(let credit):
+                        guard let myTrendyResult = credit.cast else { return }
+                        self.castList.append(contentsOf: myTrendyResult)
+                        self.detailView.mainTableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
                 }
             }
             group.leave()
@@ -154,7 +156,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
                     as? OverViewCell else { return UITableViewCell()}
             cell.configureCell(overView: overView)
             return cell
-        } 
+        }
         // MARK: TableView 2nd section Cast Image & Names
         else if indexPath.section == 1 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CastCell.id, for: indexPath)
@@ -165,7 +167,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             guard let name = data.character else { return UITableViewCell() }
             cell.configureCell(imagePath: imagePath, realName: realName, playName: name)
             return cell
-        } 
+        }
         // MARK:  TableView 3rd, 4th Section Similar & Recommendation Posters
         else if indexPath.section == 2 || indexPath.section == 3 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: VideoListCell.id, for: indexPath)
