@@ -16,12 +16,7 @@ class VideoView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .cyan
         configureUI()
-        
-        callRequest()
-        
-        configureView()
     }
     
     required init?(coder: NSCoder) {
@@ -30,25 +25,14 @@ class VideoView: UIView {
     
     private func configureUI() {
         self.addSubview(webkitView)
-        webkitView.backgroundColor = .brown
         webkitView.snp.makeConstraints { make in
             make.edges.equalTo(self.safeAreaLayoutGuide)
         }
     }
     
-    func configureView() {
-        let tempKey = "fkjs_kY1F7Q"
-        let key = tempKey
-        guard let url = URL(string: "https://www.youtube.com/watch?v=\(key)") else { return }
+    func configureView(id: String) {
+        guard let url = URL(string: "https://www.youtube.com/watch?v=\(id)") else { return }
         let request = URLRequest(url: url)
         webkitView.load(request)
-        
-    }
-    
-    func fetchData() {
-    }
-    func callRequest() {
-        
-        "https://developer.themoviedb.org/reference/tv-series-videos"
     }
 }

@@ -17,6 +17,19 @@ class VideoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        callRequest()
+        
     }
-    
+
+    func callRequest() {
+        ApiManager.shared.callRequestTMDB(api: APIModel.movieVideo(id: 786892), type: Video.self) { result in
+            switch result {
+            case .success(let video):
+                guard let id = video.results?.first?.key else { return }
+                self.videoView.configureView(id: id)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
 }
