@@ -23,6 +23,7 @@ enum APIModel {
     case images(id: Int)
     case movieCredit(id: Int)
     case movieDetail(id: Int)
+    case movieVideo(id: Int)
     
     var baseURL: String {
         return "https://api.themoviedb.org/3/"
@@ -47,6 +48,8 @@ enum APIModel {
             return URL(string: baseURL + "movie/\(id)/credits")!
         case .movieDetail(id: let id):
             return URL(string: baseURL + "movie/\(id)")!
+        case .movieVideo(id: let id):
+            return URL(string: baseURL + "movie/\(id)/videos")!
         }
     }
     
@@ -81,6 +84,8 @@ enum APIModel {
         case .movieCredit(id: _):
             return [ "language" : "ko-KR"]
         case .movieDetail(id: _):
+            return [ "language" : "ko-KR"]
+        case .movieVideo(id: _):
             return [ "language" : "ko-KR"]
         }
     }

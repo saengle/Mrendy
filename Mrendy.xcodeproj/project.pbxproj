@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8E31119C2C332DEC00E1BB80 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31119B2C332DEC00E1BB80 /* VideoViewController.swift */; };
 		8E31119E2C332E1900E1BB80 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31119D2C332E1900E1BB80 /* VideoView.swift */; };
+		8E3111A02C3331FB00E1BB80 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31119F2C3331FB00E1BB80 /* Video.swift */; };
 		8E8E6D4B2C17157B007CAB56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8E6D4A2C17157B007CAB56 /* AppDelegate.swift */; };
 		8E8E6D4D2C17157B007CAB56 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8E6D4C2C17157B007CAB56 /* SceneDelegate.swift */; };
 		8E8E6D542C17157E007CAB56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E8E6D532C17157E007CAB56 /* Assets.xcassets */; };
@@ -43,6 +44,7 @@
 /* Begin PBXFileReference section */
 		8E31119B2C332DEC00E1BB80 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		8E31119D2C332E1900E1BB80 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
+		8E31119F2C3331FB00E1BB80 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		8E8E6D472C17157B007CAB56 /* Mrendy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mrendy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E8E6D4A2C17157B007CAB56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E8E6D4C2C17157B007CAB56 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				8E8E6D9D2C1A6C65007CAB56 /* Credit.swift */,
 				8EDE51432C2B416E008CCB43 /* VideoDetail.swift */,
 				8EDE51482C2BBB62008CCB43 /* APIModel.swift */,
+				8E31119F2C3331FB00E1BB80 /* Video.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 				8EDE51402C2B0072008CCB43 /* BaseTableViewCell.swift in Sources */,
 				8E8E6D762C174C7D007CAB56 /* MainTableViewCell.swift in Sources */,
 				8E8E6D742C17430A007CAB56 /* Trendy.swift in Sources */,
+				8E3111A02C3331FB00E1BB80 /* Video.swift in Sources */,
 				8E8E6D882C183D19007CAB56 /* SearchView.swift in Sources */,
 				8E8E6D662C1717B5007CAB56 /* SecureAPI.swift in Sources */,
 				8E8E6D4B2C17157B007CAB56 /* AppDelegate.swift in Sources */,

@@ -6,3 +6,18 @@
 //
 
 import Foundation
+
+struct Video: Decodable {
+    let id: Int?
+    let results: [Key]?
+    enum CodingKeys: String, CodingKey {
+        case id, results
+    }
+}
+
+struct Key: Decodable {
+    let key: String?
+    enum CodingKeys: String, CodingKey {
+        case key
+    }
+}
