@@ -42,7 +42,8 @@ class SearchViewController: UIViewController {
     }
 }
 extension SearchViewController {
-    @objc func backButtonClicked() {
+    @objc
+    private func backButtonClicked() {
         self.navigationController?.popViewController(animated: true)
     }
 }
@@ -123,13 +124,14 @@ extension SearchViewController: UISearchBarDelegate {
         dismissKeyboard()
     }
     
-    func hideKeyboard() {
+    private func hideKeyboard() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
     
-    @objc func dismissKeyboard() {
+    @objc
+    private func dismissKeyboard() {
         view.endEditing(true)
     }
 }

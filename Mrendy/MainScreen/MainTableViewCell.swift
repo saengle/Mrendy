@@ -16,13 +16,13 @@ class MainTableViewCell: UITableViewCell {
     let genreLabel = UILabel()
     let posterImageView = UIImageView()
     
-    let deetailStackView = UIStackView()
+    private let deetailStackView = UIStackView()
     let titleLabel = UILabel()
     let descriptionLabel = UILabel()
-    let lineView = UIView()
-    let horizontalStackView = UIStackView()
+    private let lineView = UIView()
+    private let horizontalStackView = UIStackView()
     let detailLabel = UILabel()
-    let arrowButton = UIButton()
+    private let arrowButton = UIButton()
     
     let phoneScreenWidth = UIScreen.main.bounds.size.width
     
@@ -103,7 +103,7 @@ class MainTableViewCell: UITableViewCell {
         }
     }
     
-    func configureUI() {
+    private func configureUI() {
         dateLabel.font = .systemFont(ofSize: 12)
         dateLabel.textColor = .systemGray
         

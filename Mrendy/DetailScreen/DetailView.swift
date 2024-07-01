@@ -10,14 +10,14 @@ import UIKit
 import SnapKit
 import Kingfisher
 
-class DetailView: UIView {
+final class DetailView: UIView {
     
-    let backgroundPosterImageView = {
+    private let backgroundPosterImageView = {
         let iv = UIImageView()
         return iv
     }()
     
-    let posterImageView = UIImageView()
+    private let posterImageView = UIImageView()
    
     let mainTableView = {
         let tb = UITableView()

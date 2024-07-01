@@ -10,9 +10,9 @@ import UIKit
 import Kingfisher
 import SnapKit
 
-class SearchCollectionViewCell: UICollectionViewCell {
+final class SearchCollectionViewCell: UICollectionViewCell {
     
-    let searchedImageView: UIImageView = {
+    private let searchedImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
         iv.backgroundColor = .clear

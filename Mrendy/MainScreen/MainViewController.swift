@@ -9,13 +9,13 @@ import UIKit
 
 import Kingfisher
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
     
-    let mainView = MainView()
+    private let mainView = MainView()
     
-    var trendyList: [Results] = []
-    var page = 1
-    var totalPage = 1
+    private var trendyList: [Results] = []
+    private var page = 1
+    private var totalPage = 1
     
     override func loadView() {
         view = mainView
@@ -51,7 +51,8 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController {
-    @objc func searchButtonTapped() {
+    @objc
+    private func searchButtonTapped() {
         let searchVC = SearchViewController()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         navigationController?.pushViewController(searchVC, animated: true)

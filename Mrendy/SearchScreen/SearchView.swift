@@ -10,11 +10,11 @@ import UIKit
 import SnapKit
 
 
-class SearchView: UIView {
+final class SearchView: UIView {
     
     lazy var searchedCollectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
     
-    func collectionViewLayout() -> UICollectionViewLayout {
+    private func collectionViewLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         let width = UIScreen.main.bounds.width - 40
         layout.itemSize = CGSize(width: width / 3 , height:  width * 4 / 9  )
@@ -82,6 +82,4 @@ extension SearchView {
             make.top.equalTo(searchBar.snp.bottom)
         }
     }
-    
-    
 }

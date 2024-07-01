@@ -9,9 +9,9 @@ import UIKit
 
 import SnapKit
 
-class OverViewCell: BaseTableViewCell {
+final class OverViewCell: BaseTableViewCell {
     
-    let overviewLabel = {
+    private let overviewLabel = {
         let lb = UILabel()
         lb.font = .systemFont(ofSize: 13)
         return lb

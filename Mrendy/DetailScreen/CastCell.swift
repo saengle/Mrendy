@@ -10,11 +10,11 @@ import UIKit
 import Kingfisher
 import SnapKit
 
-class CastCell: BaseTableViewCell {
+final class CastCell: BaseTableViewCell {
     
-    let posterIamge = UIImageView()
-    let realNameLabel = UILabel()
-    let playNameLabel = UILabel()
+    private let posterIamge = UIImageView()
+    private let realNameLabel = UILabel()
+    private let playNameLabel = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

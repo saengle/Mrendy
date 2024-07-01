@@ -9,8 +9,7 @@ import UIKit
 
 import SnapKit
 
-class VideoListCell: BaseTableViewCell {
-    
+final class VideoListCell: BaseTableViewCell {
     
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout())
     
@@ -42,7 +41,5 @@ class VideoListCell: BaseTableViewCell {
         collectionView.snp.makeConstraints{
             $0.edges.equalTo(contentView)
         }
-    }
-    override func configureCell() {
     }
 }

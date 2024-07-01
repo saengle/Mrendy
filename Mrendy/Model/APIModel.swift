@@ -41,7 +41,7 @@ enum APIModel {
             return   URL(string: baseURL + "movie/\(id)/images")!
         case .movieSimilar(id: let id, page: _):
             return URL(string: baseURL + "movie/\(id))/similar")!
-        case .movieRecommend(id: let id, page: let page):
+        case .movieRecommend(id: let id, page: _):
             return URL(string: baseURL + "movie/\(id))/recommendations")!
         case .movieCredit(id: let id):
             return URL(string: baseURL + "movie/\(id)/credits")!

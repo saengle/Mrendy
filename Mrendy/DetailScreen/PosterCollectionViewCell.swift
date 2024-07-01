@@ -9,7 +9,7 @@ import UIKit
 
 import Kingfisher
 
-class PosterCollectionViewCell: UICollectionViewCell {
+final class PosterCollectionViewCell: UICollectionViewCell {
     
     let posterImageView = UIImageView()
     override init(frame: CGRect) {

@@ -7,10 +7,10 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+final class DetailViewController: UIViewController {
     
     lazy var id = ""
-    let detailView = DetailView()
+    private let detailView = DetailView()
     lazy var castList: [Cast] = []
     lazy var overView: String = ""
     lazy var backdropPath: String = ""
